@@ -1,0 +1,6 @@
+requests
+pandas
+openpyxl
+python-docx
+reportlab
+urllib3
