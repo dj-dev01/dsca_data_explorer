@@ -1,7 +1,7 @@
 # dsca_explorer/fetchers/usgs.py
 
 import requests
-from ..config import USGS_HANS_BASE, USGS_GEOJSON, USGS_EQ_BASE, USGS_WATER_BASE, DOC_URLS, HIFLD_HEADERS
+from ..config import USGS_HANS_BASE, USGS_GEOJSON, USGS_EQ_BASE, USGS_WATER_BASE, HIFLD_HEADERS
 
 def fetch_usgs_layers(progress_cb=None):
     layers = []
@@ -29,7 +29,8 @@ def fetch_usgs_layers(progress_cb=None):
                 "properties": props,
                 "description": desc,
                 "url": url,
-                "series": "Earthquakes"
+                "series": "Earthquakes",
+                "source": "USGS"
             })
     except Exception as e:
         print(f"Error fetching USGS earthquakes: {e}")
@@ -56,7 +57,8 @@ def fetch_usgs_layers(progress_cb=None):
                 "properties": props,
                 "description": desc,
                 "url": url,
-                "series": "Water Data"
+                "series": "Water Data",
+                "source": "USGS"
             })
     except Exception as e:
         print(f"Error fetching USGS water data: {e}")
@@ -81,7 +83,8 @@ def fetch_usgs_layers(progress_cb=None):
                 "properties": v,
                 "description": desc,
                 "url": url,
-                "series": "Elevated Volcanoes"
+                "series": "Elevated Volcanoes",
+                "source": "USGS"
             })
     except Exception as e:
         print(f"Error fetching USGS elevated volcanoes: {e}")
@@ -106,7 +109,8 @@ def fetch_usgs_layers(progress_cb=None):
                 "properties": v,
                 "description": desc,
                 "url": url,
-                "series": "CAP Alerts"
+                "series": "CAP Alerts",
+                "source": "USGS"
             })
     except Exception as e:
         print(f"Error fetching USGS CAP alerts: {e}")
@@ -131,7 +135,8 @@ def fetch_usgs_layers(progress_cb=None):
                 "properties": v,
                 "description": desc,
                 "url": url,
-                "series": "Monitored Volcanoes"
+                "series": "Monitored Volcanoes",
+                "source": "USGS"
             })
     except Exception as e:
         print(f"Error fetching USGS monitored volcanoes: {e}")
@@ -157,10 +162,11 @@ def fetch_usgs_layers(progress_cb=None):
                 "properties": props,
                 "description": desc,
                 "url": url,
-                "series": "GeoJSON Elevated"
+                "series": "GeoJSON Elevated",
+                "source": "USGS"
             })
     except Exception as e:
         print(f"Error fetching USGS GeoJSON volcanoes: {e}")
     if progress_cb:
-        progress_cb(100, "Done")
+        progress_cb(100, f"USGS: {len(layers)} layers")
     return layers

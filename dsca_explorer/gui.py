@@ -4,6 +4,8 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
 import threading
 import webbrowser
+import concurrent.futures
+import json
 
 from .config import DOC_URLS
 from .fetchers import (
@@ -144,10 +146,215 @@ class DSCARestAPIExplorer:
         self.context_menu.add_command(label="Copy Cell", command=self.copy_cell)
         self.context_menu.add_command(label="Copy Row", command=self.copy_row)
 
-    # All the methods from the previous monolithic version go here:
-    # fetch_layers, _multifetch_layers_thread, _update_ui_after_fetch, apply_filters, _populate_tree,
-    # show_layer_details, export_selected, sort_by_column, show_context_menu, copy_cell, copy_row, quick_filter, etc.
-    # Each should call the appropriate fetchers from the fetchers package and use export_layers for export.
+    def select_all(self):
+    # Only select leaf nodes (not group nodes)
+        if not hasattr(self, "group_nodes"):
+            return
+        for group_id in self.group_nodes.values():
+            for child in self.tree.get_children(group_id):
+                self.tree.selection_add(child)
 
-    # For brevity, refer to your previous code for these methods, but now import fetchers/export/cache as above.
+    def clear_selection(self):
+        self.tree.selection_remove(self.tree.get_children())
 
+    def fetch_layers(self):
+        self.status_var.set("Fetching layers...")
+        self.progress["mode"] = "indeterminate"
+        self.progress.start()
+        self.progress_label.set("Fetching all sources in parallel...")
+        threading.Thread(target=self._multifetch_layers_thread, daemon=True).start()
+
+    def _multifetch_layers_thread(self):
+        fetch_funcs = [
+            fetch_arcgis_layers_all,
+            fetch_openfema_layers,
+            fetch_hifld_layers,
+            fetch_noaa_layers,
+            fetch_usgs_layers,
+            fetch_epa_layers,
+            fetch_nasa_layers,
+        ]
+        layers = []
+        source_counts = {k: 0 for k in self.source_counts}
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(fetch_funcs)) as executor:
+            futures = [executor.submit(f) for f in fetch_funcs]
+            for future in concurrent.futures.as_completed(futures):
+                result = future.result()
+                if isinstance(result, dict):  # For arcgis, which returns {'layers':..., 'count':...}
+                    layers.extend(result['layers'])
+                    source_counts['FEMA'] = result.get('count', 0)
+                elif isinstance(result, list):
+                    layers.extend(result)
+        for src in ["OpenFEMA", "HIFLD", "NOAA", "USGS", "EPA", "NASA"]:
+            source_counts[src] = len([l for l in layers if l.get("source") == src])
+        new_layers, updated_layers = detect_new_or_updated_layers(layers)
+        self.all_layers = layers
+        self.source_counts = source_counts
+        self.root.after(0, self._update_ui_after_fetch)
+        if new_layers or updated_layers:
+            msg = ""
+            if new_layers:
+                msg += f"New layers detected: {len(new_layers)}\n"
+                msg += "\n".join(f"- {l['name']} ({l['source']})" for l in new_layers[:10])
+                if len(new_layers) > 10:
+                    msg += f"\n...and {len(new_layers)-10} more."
+            if updated_layers:
+                msg += f"\n\nUpdated layers detected: {len(updated_layers)}\n"
+                msg += "\n".join(f"- {l['name']} ({l['source']})" for l in updated_layers[:10])
+                if len(updated_layers) > 10:
+                    msg += f"\n...and {len(updated_layers)-10} more."
+            self.root.after(0, lambda: messagebox.showinfo("New/Updated Layers", msg))
+
+    def _update_ui_after_fetch(self):
+        total = sum(self.source_counts.values())
+        self.counter_var.set(
+            f"FEMA: {self.source_counts['FEMA']} | OpenFEMA: {self.source_counts['OpenFEMA']} | HIFLD: {self.source_counts['HIFLD']} | NOAA: {self.source_counts['NOAA']} | USGS: {self.source_counts['USGS']} | EPA: {self.source_counts['EPA']} | NASA: {self.source_counts['NASA']} | Total: {total}"
+        )
+        self.progress.stop()
+        self.status_var.set(f"Found {total} layers")
+        self.progress_label.set("")
+        self.apply_filters()
+
+    def apply_filters(self):
+        endpoint = self.endpoint_var.get()
+        fmt = self.format_var.get()
+        typ = self.type_var.get()
+        search = self.search_var.get().lower()
+        self.filtered_layers = []
+        for layer in self.all_layers:
+            if endpoint != "All":
+                if endpoint == "OpenFEMA" and layer["type"] != "OpenFEMA":
+                    continue
+                elif endpoint == "HIFLD" and layer["type"] != "HIFLD":
+                    continue
+                elif endpoint == "NOAA" and not layer["type"].startswith("NOAA"):
+                    continue
+                elif endpoint == "USGS" and not layer["type"].startswith("USGS"):
+                    continue
+                elif endpoint == "EPA" and not layer["type"].startswith("EPA"):
+                    continue
+                elif endpoint == "NASA" and not layer["type"].startswith("NASA"):
+                    continue
+                elif endpoint not in ["OpenFEMA", "HIFLD", "NOAA", "USGS", "EPA", "NASA"] and endpoint not in get_endpoint_name(str(layer["endpoint"])):
+                    continue
+            if fmt != "All" and fmt not in layer["formats"]:
+                continue
+            if typ != "All" and typ != layer["type"]:
+                continue
+            if search and search not in layer["name"].lower():
+                continue
+            self.filtered_layers.append(layer)
+        self._populate_tree()
+
+    def _populate_tree(self):
+        self.tree.delete(*self.tree.get_children())
+        groups = {}
+        for layer in self.filtered_layers:
+            group = layer.get("series", "Other")
+            if group not in groups:
+                groups[group] = []
+            groups[group].append(layer)
+        self.group_nodes = {}
+        for group in sorted(groups.keys()):
+            group_label = f"{group} ({len(groups[group])})"
+            group_id = self.tree.insert("", tk.END, text=group_label, values=("", "", "", ""))
+            self.group_nodes[group] = group_id
+            for layer in sorted(groups[group], key=lambda l: l["name"].lower()):
+                self.tree.insert(group_id, tk.END, values=(
+                    layer["name"], layer["type"], layer["endpoint"], layer["formats"]
+                ))
+
+    def show_layer_details(self, event=None):
+        selected = self.tree.selection()
+        if not selected:
+            self.details_text.delete(1.0, tk.END)
+            return
+        item = self.tree.item(selected[0])
+        values = item["values"]
+        if not values or not values[0]:
+            self.details_text.delete(1.0, tk.END)
+            return
+        layer = next((l for l in self.filtered_layers if l["name"] == values[0] and l["endpoint"] == values[2]), None)
+        if not layer:
+            self.details_text.delete(1.0, tk.END)
+            return
+        details = f"Name: {layer['name']}\nType: {layer['type']}\nEndpoint: {layer['endpoint']}\nFormats: {layer['formats']}\n"
+        if layer.get("description"):
+            details += f"\nDescription:\n{layer['description']}\n"
+        if layer.get("dataDictionary"):
+            details += f"\nData Dictionary: {layer['dataDictionary']}\n"
+        if layer.get("landingPage"):
+            details += f"\nLanding Page: {layer['landingPage']}\n"
+        details += "\nAll Properties:\n"
+        details += json.dumps(layer.get("properties", {}), indent=2)
+        self.details_text.delete(1.0, tk.END)
+        self.details_text.insert(tk.END, details)
+        self.details_text.tag_configure("url", foreground="blue", underline=True)
+        for key in ["endpoint", "url", "dataDictionary", "landingPage"]:
+            url = layer.get(key)
+            if url and url.startswith("http"):
+                idx = self.details_text.search(url, "1.0", tk.END)
+                if idx:
+                    end = f"{idx}+{len(url)}c"
+                    self.details_text.tag_add("url", idx, end)
+                    self.details_text.tag_bind("url", "<Button-1>", lambda e, url=url: webbrowser.open(url))
+
+    def export_selected(self):
+        selected = self.tree.selection()
+        if not selected:
+            messagebox.showinfo("Export", "No layers selected.")
+            return
+        layers = []
+        for sel in selected:
+            item = self.tree.item(sel)
+            values = item["values"]
+            if not values or not values[0]:
+                continue
+            layer = next((l for l in self.filtered_layers if l["name"] == values[0] and l["endpoint"] == values[2]), None)
+            if layer:
+                layers.append(layer)
+        if not layers:
+            messagebox.showinfo("Export", "No layers selected.")
+            return
+
+        formats = [("CSV", "*.csv"), ("Excel", "*.xlsx"), ("JSON", "*.json"), ("Text", "*.txt"), ("Word", "*.docx"), ("PDF", "*.pdf")]
+        filetypes = formats
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=filetypes)
+        if not file_path:
+            return
+
+        try:
+            export_layers(layers, file_path)
+            messagebox.showinfo("Export", f"Exported {len(layers)} layers to {file_path}")
+        except Exception as e:
+            messagebox.showerror("Export Error", str(e))
+
+    def sort_by_column(self, col):
+        self.sort_reverse = not self.sort_reverse
+        self.filtered_layers.sort(key=lambda x: x.get(col, "").lower() if isinstance(x.get(col, ""), str) else str(x.get(col, "")), reverse=self.sort_reverse)
+        self._populate_tree()
+
+    def show_context_menu(self, event):
+        rowid = self.tree.identify_row(event.y)
+        col = self.tree.identify_column(event.x)
+        if rowid and col:
+            self.tree.selection_set(rowid)
+            self.context_menu.post(event.x_root, event.y_root)
+            self._context_rowid = rowid
+            self._context_col = int(col.replace("#", "")) - 1
+
+    def copy_cell(self):
+        item = self.tree.item(self._context_rowid)
+        value = item["values"][self._context_col]
+        self.root.clipboard_clear()
+        self.root.clipboard_append(str(value))
+
+    def copy_row(self):
+        item = self.tree.item(self._context_rowid)
+        values = item["values"]
+        self.root.clipboard_clear()
+        self.root.clipboard_append("\t".join(str(v) for v in values))
+
+    def quick_filter(self, label):
+        self.search_var.set(label.lower())
+        self.apply_filters()

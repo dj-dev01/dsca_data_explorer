@@ -4,3 +4,4 @@ openpyxl
 python-docx
 reportlab
 urllib3
+markdown

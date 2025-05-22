@@ -1,7 +1,7 @@
 # dsca_explorer/fetchers/noaa.py
 
 import requests
-from ..config import NOAA_BASE, NOAA_HEADERS, DOC_URLS
+from ..config import NOAA_BASE, NOAA_HEADERS
 
 def fetch_noaa_layers(progress_cb=None):
     layers = []
@@ -28,7 +28,8 @@ def fetch_noaa_layers(progress_cb=None):
                 "properties": props,
                 "description": desc,
                 "url": url,
-                "series": "Active Alerts"
+                "series": "Active Alerts",
+                "source": "NOAA"
             })
     except Exception as e:
         print(f"Error fetching NOAA alerts: {e}")
@@ -54,7 +55,8 @@ def fetch_noaa_layers(progress_cb=None):
                 "properties": props,
                 "description": desc,
                 "url": url,
-                "series": "Stations"
+                "series": "Stations",
+                "source": "NOAA"
             })
     except Exception as e:
         print(f"Error fetching NOAA stations: {e}")
@@ -80,7 +82,8 @@ def fetch_noaa_layers(progress_cb=None):
                 "properties": props,
                 "description": desc,
                 "url": url,
-                "series": "Radar Stations"
+                "series": "Radar Stations",
+                "source": "NOAA"
             })
     except Exception as e:
         print(f"Error fetching NOAA radar stations: {e}")
@@ -106,10 +109,11 @@ def fetch_noaa_layers(progress_cb=None):
                 "properties": obs,
                 "description": desc,
                 "url": url,
-                "series": "Tides"
+                "series": "Tides",
+                "source": "NOAA"
             })
     except Exception as e:
         print(f"Error fetching NOAA tides: {e}")
     if progress_cb:
-        progress_cb(100, "Done")
+        progress_cb(100, f"NOAA: {len(layers)} layers")
     return layers

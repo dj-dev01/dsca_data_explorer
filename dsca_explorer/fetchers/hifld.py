@@ -1,7 +1,9 @@
 # dsca_explorer/fetchers/hifld.py
 
 import requests
-from ..config import HIFLD_BASE_URL, HIFLD_HEADERS, DOC_URLS
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from ..config import HIFLD_BASE_URL, HIFLD_HEADERS
 from .utils import infer_category_from_service
 
 def fetch_hifld_layers(progress_cb=None):
@@ -31,14 +33,19 @@ def fetch_hifld_layers(progress_cb=None):
                             'properties': layer,
                             'description': details.get('description', ''),
                             'url': f"{rest_url}/{layer.get('id', 0)}",
-                            'series': category
+                            'series': category,
+                            'source': 'HIFLD'  # Always set the source!
                         })
                 except Exception as e:
                     print(f"Error fetching layers from {rest_url}: {str(e)}")
             if progress_cb:
-                progress_cb(100, "Done")
+                progress_cb(100, f"HIFLD: {len(layers)} layers")
         else:
             print(f"Failed to load HIFLD data. Status code: {response.status_code}")
+            if progress_cb:
+                progress_cb(100, "HIFLD: Error")
     except Exception as e:
         print(f"Error fetching HIFLD data: {e}")
+        if progress_cb:
+            progress_cb(100, "HIFLD: Error")
     return layers

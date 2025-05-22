@@ -26,7 +26,8 @@ def fetch_nasa_layers(progress_cb=None):
                 "properties": c,
                 "description": desc,
                 "url": url,
-                "series": "NASA Earthdata"
+                "series": "NASA Earthdata",
+                "source": "NASA"
             })
             if progress_cb and total > 0:
                 progress_cb(int((idx/total)*100), f"NASA: {idx+1}/{total}")

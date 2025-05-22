@@ -1,7 +1,7 @@
 # dsca_explorer/fetchers/fema.py
 
 import requests
-from ..config import FEMA_ENDPOINTS, DOC_URLS
+from ..config import FEMA_ENDPOINTS, DOC_URLS, OPENFEMA_API
 from .utils import get_series_prefix
 
 def fetch_arcgis_layers_all(progress_cb=None):
@@ -10,9 +10,14 @@ def fetch_arcgis_layers_all(progress_cb=None):
     for idx, base_url in enumerate(FEMA_ENDPOINTS):
         if progress_cb:
             progress_cb(int((idx/total)*100), f"Fetching {base_url}")
-        layers.extend(fetch_arcgis_layers(base_url))
+        arc_layers = fetch_arcgis_layers(base_url)
+        for l in arc_layers:
+            l["source"] = "FEMA"
+            l["documentation"] = DOC_URLS.get(l["type"], DOC_URLS["MapServer"])
+            l["download_url"] = l.get("endpoint", "")
+        layers.extend(arc_layers)
     if progress_cb:
-        progress_cb(100, "Done")
+        progress_cb(100, f"FEMA: {len(layers)} layers")
     return {'layers': layers, 'count': len(layers)}
 
 def fetch_arcgis_layers(base_url):
@@ -44,7 +49,8 @@ def fetch_arcgis_layers(base_url):
                         "properties": lyr,
                         "description": desc,
                         "url": f"{svc_url}/{lyr.get('id', 0)}",
-                        "series": get_series_prefix(lyr.get("name", ""))
+                        "series": get_series_prefix(lyr.get("name", "")),
+                        "source": "FEMA"
                     })
             except Exception as e:
                 continue
@@ -52,14 +58,17 @@ def fetch_arcgis_layers(base_url):
         print(f"Error fetching ArcGIS layers from {base_url}: {e}")
     return layers
 
-def fetch_openfema_layers():
+def fetch_openfema_layers(progress_cb=None):
     layers = []
     try:
-        url = "https://www.fema.gov/api/open/v1/DataSets"
+        if progress_cb:
+            progress_cb(0, "Fetching OpenFEMA datasets")
+        url = OPENFEMA_API
         res = requests.get(url, timeout=20)
         res.raise_for_status()
         datasets = res.json().get("DataSets", [])
-        for ds in datasets:
+        total = len(datasets)
+        for idx, ds in enumerate(datasets):
             endpoint = ds.get("apiEndpoint") or ds.get("accessURL") or ""
             name = ds.get("title") or ds.get("name") or "OpenFEMA Dataset"
             fmt = ds.get("format") or "JSON"
@@ -77,8 +86,15 @@ def fetch_openfema_layers():
                 "url": endpoint,
                 "dataDictionary": data_dict,
                 "landingPage": landing,
-                "series": series
+                "series": series,
+                "source": "OpenFEMA"
             })
+            if progress_cb and total > 0:
+                progress_cb(int((idx/total)*100), f"OpenFEMA: {idx+1}/{total}")
+        if progress_cb:
+            progress_cb(100, f"OpenFEMA: {len(layers)} layers")
     except Exception as e:
         print(f"Error fetching OpenFEMA layers: {e}")
+        if progress_cb:
+            progress_cb(100, "OpenFEMA: Error")
     return layers
