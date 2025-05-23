@@ -4,14 +4,23 @@ HIFLD_BASE_URL = "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/serv
 HIFLD_HEADERS = {
     "User-Agent": "DSCA-Explorer (your.email@yourdomain.com)"
 }
+
 NOAA_BASE = "https://api.weather.gov"
 NOAA_HEADERS = {
     "User-Agent": "DSCA-Explorer (your.email@yourdomain.com)"
 }
+
+NOAA_TIDES_DEFAULT_DATUM = "MLLW"
+NOAA_TIDES_DEFAULT_TIMEZONE = "gmt"
+
+
+# USGS endpoints (updated)
 USGS_HANS_BASE = "https://volcanoes.usgs.gov/hans-public/api"
-USGS_GEOJSON = "https://volcanoes.usgs.gov/hans-public/map/geojson.php"
 USGS_EQ_BASE = "https://earthquake.usgs.gov/fdsnws/event/1/query"
 USGS_WATER_BASE = "https://waterservices.usgs.gov/nwis/iv/"
+# Updated GeoJSON volcanoes endpoint (official as of 2024)
+USGS_GEOJSON = "https://volcanoes.usgs.gov/feeds/vhp_volcano_info.geojson"
+
 EPA_BASE = "https://enviro.epa.gov/enviro/efservice"
 NASA_CMR = "https://cmr.earthdata.nasa.gov/search/collections.json"
 
@@ -25,7 +34,7 @@ DOC_URLS = {
     "USGS Monitored Volcano": "https://volcanoes.usgs.gov/hans-public/api/",
     "USGS Notice": "https://volcanoes.usgs.gov/hans-public/api/",
     "USGS VONA": "https://volcanoes.usgs.gov/hans-public/api/",
-    "USGS GeoJSON Volcano": "https://volcanoes.usgs.gov/hans-public/api/",
+    "USGS GeoJSON Volcano": "https://volcanoes.usgs.gov/feeds/vhp_volcano_info.geojson",
     "NOAA Alert": "https://www.weather.gov/documentation/services-web-api",
     "NOAA Station": "https://www.weather.gov/documentation/services-web-api",
     "NOAA Radar": "https://www.weather.gov/documentation/services-web-api",
@@ -37,6 +46,7 @@ DOC_URLS = {
     "MapServer": "https://gis.fema.gov/arcgis/rest/services/",
     "FeatureServer": "https://gis.fema.gov/arcgis/rest/services/"
 }
+
 
 FEMA_ENDPOINTS = [
     "https://gis.fema.gov/arcgis/rest/services/FEMA",

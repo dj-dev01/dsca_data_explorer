@@ -4,8 +4,8 @@ setup(
     name="dsca-data-explorer",
     version="1.0.0",
     description="Multi-source geospatial/environmental data explorer for DSCA, emergency management, and research.",
-    author="Your Name",
-    author_email="your.email@yourdomain.com",
+    author="DJ",
+    author_email="daltonn.ctr@palantir.com",
     packages=find_packages(),
     install_requires=[
         "requests",

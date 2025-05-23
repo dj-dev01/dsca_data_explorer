@@ -1,14 +1,19 @@
 # dsca_explorer/fetchers/usgs.py
 
 import requests
-from ..config import USGS_HANS_BASE, USGS_GEOJSON, USGS_EQ_BASE, USGS_WATER_BASE, HIFLD_HEADERS
+from ..config import (
+    USGS_HANS_BASE,
+    USGS_EQ_BASE,
+    USGS_WATER_BASE,
+    HIFLD_HEADERS
+)
 
 def fetch_usgs_layers(progress_cb=None):
     layers = []
     total = 6
     step = 0
 
-    # Earthquakes
+    # 1. Earthquakes
     try:
         if progress_cb:
             progress_cb(int((step/total)*100), "Fetching USGS Earthquakes")
@@ -36,7 +41,7 @@ def fetch_usgs_layers(progress_cb=None):
         print(f"Error fetching USGS earthquakes: {e}")
     step += 1
 
-    # Water
+    # 2. Water
     try:
         if progress_cb:
             progress_cb(int((step/total)*100), "Fetching USGS Water Data")
@@ -64,7 +69,7 @@ def fetch_usgs_layers(progress_cb=None):
         print(f"Error fetching USGS water data: {e}")
     step += 1
 
-    # Elevated Volcanoes
+    # 3. Elevated Volcanoes
     try:
         if progress_cb:
             progress_cb(int((step/total)*100), "Fetching USGS Elevated Volcanoes")
@@ -90,7 +95,7 @@ def fetch_usgs_layers(progress_cb=None):
         print(f"Error fetching USGS elevated volcanoes: {e}")
     step += 1
 
-    # CAP Alerts
+    # 4. CAP Alerts
     try:
         if progress_cb:
             progress_cb(int((step/total)*100), "Fetching USGS CAP Alerts")
@@ -116,7 +121,7 @@ def fetch_usgs_layers(progress_cb=None):
         print(f"Error fetching USGS CAP alerts: {e}")
     step += 1
 
-    # Monitored Volcanoes
+    # 5. Monitored Volcanoes
     try:
         if progress_cb:
             progress_cb(int((step/total)*100), "Fetching USGS Monitored Volcanoes")
@@ -142,18 +147,21 @@ def fetch_usgs_layers(progress_cb=None):
         print(f"Error fetching USGS monitored volcanoes: {e}")
     step += 1
 
-    # GeoJSON Elevated Volcanoes
+    # 6. GeoJSON Volcanoes (NEW ENDPOINT)
     try:
         if progress_cb:
             progress_cb(int((step/total)*100), "Fetching USGS GeoJSON Volcanoes")
-        resp = requests.get(USGS_GEOJSON, headers=HIFLD_HEADERS, timeout=15)
+        # Official USGS volcano GeoJSON feed (as of 2024)
+        geojson_url = "https://volcanoes.usgs.gov/feeds/vhp_volcano_info.geojson"
+        resp = requests.get(geojson_url, timeout=15)
         resp.raise_for_status()
         data = resp.json()
         for feat in data.get("features", []):
             props = feat.get("properties", {})
-            name = props.get("volcanoName") or props.get("volcCode") or "USGS GeoJSON Volcano"
+            geometry = feat.get("geometry", {})
+            name = props.get("volcanoName") or props.get("volcCode") or props.get("id") or "USGS GeoJSON Volcano"
             desc = f"Alert: {props.get('currentColorCode','')}, {props.get('alertLevel','')}"
-            url = f"https://volcanoes.usgs.gov/volcanoes/{props.get('volcCode','')}"
+            url = f"https://volcanoes.usgs.gov/volcanoes/{props.get('volcCode','') or props.get('id','')}"
             layers.append({
                 "name": name,
                 "type": "USGS GeoJSON Volcano",
@@ -162,11 +170,13 @@ def fetch_usgs_layers(progress_cb=None):
                 "properties": props,
                 "description": desc,
                 "url": url,
-                "series": "GeoJSON Elevated",
+                "series": "GeoJSON Volcanoes",
                 "source": "USGS"
             })
     except Exception as e:
         print(f"Error fetching USGS GeoJSON volcanoes: {e}")
+    step += 1
+
     if progress_cb:
         progress_cb(100, f"USGS: {len(layers)} layers")
     return layers

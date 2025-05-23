@@ -1,7 +1,7 @@
 # dsca_explorer/fetchers/noaa.py
 
 import requests
-from ..config import NOAA_BASE, NOAA_HEADERS
+from ..config import NOAA_BASE, NOAA_HEADERS, NOAA_TIDES_DEFAULT_DATUM, NOAA_TIDES_DEFAULT_TIMEZONE
 
 def fetch_noaa_layers(progress_cb=None):
     layers = []
@@ -93,8 +93,20 @@ def fetch_noaa_layers(progress_cb=None):
     try:
         if progress_cb:
             progress_cb(int((step/total)*100), "Fetching NOAA Tides")
-        url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?station=9447130&product=water_level&format=json"
-        resp = requests.get(url, timeout=15)
+        params = {
+            "station": "9447130",
+            "product": "water_level",
+            "date": "today",
+            "datum": NOAA_TIDES_DEFAULT_DATUM,
+            "time_zone": NOAA_TIDES_DEFAULT_TIMEZONE,      
+            "units": "metric",
+            "format": "json"
+        }
+        resp = requests.get(
+            "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter",
+            params=params,
+            timeout=15
+        )
         resp.raise_for_status()
         data = resp.json()
         for obs in data.get("data", []):
