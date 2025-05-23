@@ -60,6 +60,7 @@ A comprehensive, open-source Python GUI for discovering, monitoring, and exporti
 
 ## File Structure
 
+```
 dsca-data-explorer/
 ├── dsca_explorer/
 │   ├── gui.py
@@ -73,6 +74,7 @@ dsca-data-explorer/
 ├── LICENSE
 ├── run_explorer.py
 └── dsca_layer_cache.json
+```
 
 ## License
 
