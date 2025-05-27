@@ -1,18 +1,118 @@
-# dsca_explorer/export.py
+"""
+================================================================================
+DSCA Explorer Export Module - Change Log
+================================================================================
+
+BEFORE:
+-------
+- The module only supported exporting raw layer data (via export_layers).
+- Supported formats: csv, xlsx, json, txt, docx, pdf.
+- No support for exporting change logs or change records.
+- No standardized export for field-level change detection or audit trails.
+- No integration with ChangeRecord dataclass or cache change detection.
+
+AFTER:
+------
+- Added export_changes function to export a list of ChangeRecord objects
+  (from cache.py) in multiple formats (csv, xlsx, json, txt, docx, pdf).
+- Standardized change log export columns: source, layer_id, change_type,
+  changed_fields, detection_time.
+- export_changes expects ChangeRecord objects with a .to_serializable() method.
+- Both export_changes (for change logs) and export_layers (for raw layers)
+  are now available in the module.
+- All necessary imports and dependencies included.
+- Ready for CLI and test integration.
+
+================================================================================
+"""
+
 
 import pandas as pd
 import json
-import requests
-import urllib3
+from pathlib import Path
+from typing import List, Any
 from docx import Document
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-from urllib.parse import urlparse
+
+import requests
+import urllib3
 import re
 from html import unescape
+from urllib.parse import urlparse
 
 # Suppress only if verify=False is used
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# --- Change Log Export ---
+
+def export_changes(change_records: List[Any], format: str, output_path: Path):
+    """
+    Export a list of ChangeRecord objects to the specified format.
+    Supported formats: csv, json, xlsx, txt, docx, pdf
+    """
+    # Convert ChangeRecord objects to dicts (assume .to_serializable() method)
+    rows = [c.to_serializable() for c in change_records]
+
+    columns = ["source", "layer_id", "change_type", "changed_fields", "detection_time"]
+
+    if format == "csv":
+        pd.DataFrame(rows)[columns].to_csv(output_path, index=False)
+    elif format == "xlsx":
+        pd.DataFrame(rows)[columns].to_excel(output_path, index=False)
+    elif format == "json":
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(rows, f, indent=2, ensure_ascii=False)
+    elif format == "txt":
+        with open(output_path, "w", encoding="utf-8") as f:
+            for row in rows:
+                for col in columns:
+                    f.write(f"{col}: {row.get(col, '')}\n")
+                f.write("\n")
+    elif format == "docx":
+        doc = Document()
+        doc.add_heading("DSCA Change Log Export", 0)
+        for row in rows:
+            doc.add_heading(row.get('layer_id', ''), level=1)
+            for col in columns:
+                doc.add_paragraph(f"{col}: {row.get(col, '')}")
+        doc.save(str(output_path))
+    elif format == "pdf":
+        c = canvas.Canvas(str(output_path), pagesize=letter)
+        width, height = letter
+        y = height - 40
+        c.setFont("Helvetica-Bold", 16)
+        c.drawString(40, y, "DSCA Change Log Export")
+        y -= 30
+        c.setFont("Helvetica", 10)
+        for row in rows:
+            if y < 100:
+                c.showPage()
+                y = height - 40
+            c.setFont("Helvetica-Bold", 12)
+            c.drawString(40, y, row.get('layer_id', ''))
+            y -= 20
+            c.setFont("Helvetica", 10)
+            for col in columns:
+                if col == "layer_id":
+                    continue
+                if y < 60:
+                    c.showPage()
+                    y = height - 40
+                value_str = str(row.get(col, ''))
+                for line in value_str.splitlines():
+                    while len(line) > 100:
+                        c.drawString(60, y, line[:100])
+                        line = line[100:]
+                        y -= 12
+                    c.drawString(60, y, line)
+                    y -= 12
+            y -= 30
+        c.save()
+    else:
+        raise ValueError(f"Unsupported export format: {format}")
+
+# --- Layer Export (unchanged) ---
 
 def clean_html(text):
     """Remove HTML tags and decode entities from text."""

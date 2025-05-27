@@ -1,8 +1,40 @@
-# dsca_explorer/fetchers/utils.py
+"""
+================================================================================
+DSCA Explorer Fetchers Utils - Change Log
+================================================================================
+
+BEFORE:
+-------
+- Provided utility functions for:
+    - Hashing layers for change detection (layer_hash)
+    - Inferring series prefix from layer names (get_series_prefix)
+    - Inferring category from service URLs (infer_category_from_service)
+    - Extracting endpoint names from URLs (get_endpoint_name)
+
+AFTER:
+------
+- Added get_optimal_workers(multiplier=5, minimum=8, maximum=32):
+    - Dynamically determines the optimal number of worker threads for
+      ThreadPoolExecutor based on machine hardware (CPU count).
+    - Enables automatic, efficient parallelization of network-bound fetchers.
+- All other utility functions retained for hashing, categorization, and parsing.
+
+================================================================================
+"""
+
 
 import hashlib
 import json
+import os
 from urllib.parse import urlparse
+
+def get_optimal_workers(multiplier=5, minimum=8, maximum=32):
+    """
+    Returns an optimal number of workers for ThreadPoolExecutor.
+    For network-bound tasks, a higher multiplier is safe.
+    """
+    cpu_count = os.cpu_count() or 4
+    return max(minimum, min(cpu_count * multiplier, maximum))
 
 def get_series_prefix(name):
     if not name:

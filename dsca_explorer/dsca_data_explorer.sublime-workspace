@@ -1,0 +1,873 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "Package Control Messages\n========================\n\n\nSublimeLinter-pylint\n--------------------\n\n  SublimeLinter-pylint\n  -------------------------------\n  This linter plugin for SublimeLinter provides an interface to pylint.\n  \n  Please read the installation instructions at:\n  \n  https://github.com/SublimeLinter/SublimeLinter-pylint\n\n\nSublimeLinter-flake8\n--------------------\n\n  SublimeLinter-flake8\n  -------------------------------\n  This linter plugin for SublimeLinter provides an interface to flake8.\n  \n  Please read the installation instructions at:\n  \n  https://github.com/SublimeLinter/SublimeLinter-flake8\n\n\nAnaconda\n--------\n\n  \n  \n                                                            |\n                _` |  __ \\    _` |   __|   _ \\   __ \\    _` |   _` |\n               (   |  |   |  (   |  (     (   |  |   |  (   |  (   |\n              \\__,_| _|  _| \\__,_| \\___| \\___/  _|  _| \\__,_| \\__,_|\n  \n                                       The Sublime Text 3 Python IDE\n  \n  \n  Welcome to anaconda, the Sublime Text 3 Python IDE. We hope you enjoy it :)\n  \n  Anaconda works fine out of the box but you can configure it to totally adapt\n  it to your needs or style.\n  \n  For a complete guide of use and configuration take a look at:\n  \n    http://damnwidget.github.io/anaconda/\n  \n  Please, consider donating via PayPal to maintain this project alive:\n  \n    https://tinyurl.com/y7ktgzx6\n\n\nGitGutter\n---------\n\n  Thanks for installing Git Gutter!\n\n\nBracketHighlighter\n------------------\n\n  # BracketHighlighter\n  \n  Welcome to BracketHighlighter!\n  \n  A restart of Sublime Text is recommended to ensure all dependencies get  \n  loaded properly.\n  \n  For a quick start guide, please go to  \n  `Preferences->Package Settings->BracketHighlighter->Quick Start Guide`.\n\n\nMaterial Theme\n--------------\n\n  ## Material Theme for Sublime Text 3\n  \n  ***Important Notice***\n  \n  Please note that this package is **deprecated** and not maintained anymore!\n  You are using a mirror of a now-deleted repository.\n  See https://github.com/wbond/package_control_channel/pull/8646 for details.\n  \n  **********************************************************************************************\n  \n  For more information on the Material Theme: https://github.com/SublimeText/material-theme\n  \n  **********************************************************************************************\n  \n  # Activate the theme\n  \n  You can activate this theme from:\n  - Command palette `Tools > Command Palette` (⌘/Ctrl + ⇧ + P) by typing `Material Theme: Activate theme`.\n  - Context menu (Right click on the editor) and choose `Material Theme > Activate`\n  - `Preferences > Packages Settings` and choose `Material Theme > Activate`\n  \n  You can also manually activate this theme by adding these lines to your user settings (**Preferences > Settings - User**):\n  \n  ```json\n  \"color_scheme\": \"Packages/Material Theme/schemes/Material-Theme.tmTheme\",\n  \"theme\": \"Material-Theme.sublime-theme\",\n  ```\n  \n  **NOTE:** Restart Sublime Text after activating the theme.\n  \n  ## File icons\n  From release 4.0.0 this theme use [A File Icon](https://packagecontrol.io/packages/A%20File%20Icon) package to display file icons. Please install the package and restart Sublime Text.\n  \n  **********************************************************************************************\n  \n  # Theme options\n  \n  ```json\n  // Accent\n  \"material_theme_accent_acid-lime\"         : true, // Set acid-lime accent color\n  \"material_theme_accent_blue\"              : true, // Set blue accent color\n  \"material_theme_accent_brba\"              : true, // Set Breaking Bad green accent color\n  \"material_theme_accent_bright-teal\"       : true, // Set bright-teal accent color\n  \"material_theme_accent_cyan\"              : true, // Set cyan accent color\n  \"material_theme_accent_graphite\"          : true, // Set graphite accent color\n  \"material_theme_accent_indigo\"            : true, // Set indigo accent color\n  \"material_theme_accent_lime\"              : true, // Set lime green accent color\n  \"material_theme_accent_orange\"            : true, // Set orange accent color\n  \"material_theme_accent_pink\"              : true, // Set pink accent color\n  \"material_theme_accent_purple\"            : true, // Set purple accent color\n  \"material_theme_accent_red\"               : true, // Set pale red accent color\n  \"material_theme_accent_sky\"               : true, // Set bright-cyan accent color\n  \"material_theme_accent_tomato\"            : true, // Set tomato red accent color\n  \"material_theme_accent_yellow\"            : true, // Set yellow accent color\n  \n  // Panels\n  \"material_theme_accent_scrollbars\"        : true, // Enable accent color for scrollbars\n  \"material_theme_accent_titlebar\"          : true, // Enable accent color for titlebar\n  \"material_theme_bright_scrollbars\"        : true, // Bright scrollbars puck color\n  \"material_theme_compact_panel\"            : true, // Set minimal padding for the search panel\n  \"material_theme_contrast_mode\"            : true, // Enable sidebar and panels contrast mode\n  \"material_theme_panel_separator\"          : true, // Show bottom panel separator\n  \"material_theme_small_statusbar\"          : true, // Set small status bar\n  \"material_theme_titlebar\"                 : true, // Enable title bar (OS X 10.10+)\n  \n  // Sidebar\n  \"material_theme_arrow_folders\"            : true, // Replace folder icons with arrows\n  \"material_theme_big_fileicons\"            : true, // Show bigger file type icons\n  \"material_theme_bullet_tree_indicator\"    : true, // Set a bullet as active tree indicator\n  \"material_theme_compact_sidebar\"          : true, // Set compact side bar\n  \"material_theme_disable_fileicons\"        : true, // Hide sidebar file type icons\n  \"material_theme_disable_folder_animation\" : true, // Disable folder animation\n  \"material_theme_disable_tree_indicator\"   : true, // Disable sidebar file indicator\n  \n  // Tabs\n  \"material_theme_bold_tab\"                 : true, // Make the tab labels bolder\n  \"material_theme_small_tab\"                : true, // Set small tabs\n  \"material_theme_tabs_autowidth\"           : true, // Enable autowidth for tabs\n  \"material_theme_tabs_separator\"           : true, // Show tabs separator, this disables tab hover animation\n  \n  // If you use Material Theme - Appbar addon you can use additional settings:\n  \"material_theme_tree_headings\"            : true, // Show sidebar headings\n  ```\n  \n  **********************************************************************************************\n  \n  # Recommended settings for a better experience:\n  \n  ```json\n  \"always_show_minimap_viewport\" : true,\n  \"bold_folder_labels\"           : true,\n  \"font_options\"                 : [\"gray_antialias\", \"subpixel_antialias\"], // On retina Mac & Windows\n  \"indent_guide_options\"         : [\"draw_normal\", \"draw_active\"], // Highlight active indent\n  \"line_padding_bottom\"          : 3,\n  \"line_padding_top\"             : 3,\n  \"overlay_scroll_bars\"          : \"enabled\",\n  ```\n\n\nayu\n---\n\n  **ayu theme for Sublime Text**\n  To learn more about ayu visit https://github.com/dempfi/ayu\n  ===============================================================================\n  \n  Activate ayu\n  \n  Open command palette via `Tools > Command Palette` (or CMD/CTRL + SHIFT + p)\n  and type `ayu: Activate theme`.\n  \n                                    ===\n  \n  You can also manually activate this theme by adding these lines to your user\n  settings (Preferences > Settings - User):\n  \n  Light:\n  ```json\n  \"theme\": \"ayu-light.sublime-theme\",\n  \"color_scheme\": \"Packages/ayu/ayu-light.sublime-color-scheme\",\n  ```\n  \n  Mirage:\n  ```json\n  \"theme\": \"ayu-mirage.sublime-theme\",\n  \"color_scheme\": \"Packages/ayu/ayu-mirage.sublime-color-scheme\",\n  ```\n  \n  Dark:\n  ```json\n  \"theme\": \"ayu-dark.sublime-theme\",\n  \"color_scheme\": \"Packages/ayu/ayu-dark.sublime-color-scheme\",\n  ```\n  \n  ================================================================================\n  \n  Ayu provides following options to customize the theme\n  \n  ```json\n  \"ui_native_titlebar\":       true, // native titlebar on macOs\n  \"ui_separator\":             true, // separators between panels\n  \"ui_wide_scrollbars\":       true, // wider scrollbars\n  ```\n\n\nSublimeLinter\n-------------\n\n  \n    ____        _     _ _                _     _       _\n   / ___| _   _| |__ | (_)_ __ ___   ___| |   (_)_ __ | |_ ___ _ __\n   \\___ \\| | | | '_ \\| | | '_ ` _ \\ / _ \\ |   | | '_ \\| __/ _ \\ '__|\n    ___) | |_| | |_) | | | | | | | |  __/ |___| | | | | ||  __/ |\n   |____/ \\__,_|_.__/|_|_|_| |_| |_|\\___|_____|_|_| |_|\\__\\___|_|\n  \n  \n  *** As of April 2024, the current stable version of Sublime Text, Build 4169,\n  has a bug and cannot install SublimeLinter without a restart.  You're fine\n  if you have a later dev build, e.g. build 4173 has a better experience. ***\n  \n  \n  Welcome to SublimeLinter, a linter framework for Sublime Text.\n  \n  Linters are not included, they must be installed separately.\n  Get them from Package Control: https://packagecontrol.io/search/SublimeLinter\n  \n  *** We're in a transition phase to the newer ST4 plugin host.  Unless we have\n  more experience for the process, it _may_ be necessary to restart Sublime Text\n  after installing or upgrading helper packages.  Just check if everything works\n  or if the console shows permanent errors.  On my machine, no restarts were\n  necessary. ***\n  \n  \n  For complete documentation on how to use and configure SublimeLinter,\n  please see: http://www.sublimelinter.com\n  \n  To report issues: https://github.com/SublimeLinter/SublimeLinter\n",
+			"settings":
+			{
+				"buffer_size": 9612,
+				"line_ending": "Unix",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			},
+			"undo_stack":
+			[
+				[
+					1,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nSublimeLinter-pylint\n--------------------\n\n  SublimeLinter-pylint\n  -------------------------------\n  This linter plugin for SublimeLinter provides an interface to pylint.\n  \n  Please read the installation instructions at:\n  \n  https://github.com/SublimeLinter/SublimeLinter-pylint\n"
+					},
+					"AQAAAAAAAAAAAAAATgEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					4,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nSublimeLinter-flake8\n--------------------\n\n  SublimeLinter-flake8\n  -------------------------------\n  This linter plugin for SublimeLinter provides an interface to flake8.\n  \n  Please read the installation instructions at:\n  \n  https://github.com/SublimeLinter/SublimeLinter-flake8\n"
+					},
+					"AQAAAE4BAAAAAAAAagIAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAASAAAAAAAAABdAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					9,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nAnaconda\n--------\n\n  \n  \n                                                            |\n                _` |  __ \\    _` |   __|   _ \\   __ \\    _` |   _` |\n               (   |  |   |  (   |  (     (   |  |   |  (   |  (   |\n              \\__,_| _|  _| \\__,_| \\___| \\___/  _|  _| \\__,_| \\__,_|\n  \n                                       The Sublime Text 3 Python IDE\n  \n  \n  Welcome to anaconda, the Sublime Text 3 Python IDE. We hope you enjoy it :)\n  \n  Anaconda works fine out of the box but you can configure it to totally adapt\n  it to your needs or style.\n  \n  For a complete guide of use and configuration take a look at:\n  \n  \thttp://damnwidget.github.io/anaconda/\n  \n  Please, consider donating via PayPal to maintain this project alive:\n  \n  \thttps://tinyurl.com/y7ktgzx6\n"
+					},
+					"AQAAAGoCAAAAAAAAewUAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAagIAAAAAAABqAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					10,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nGitGutter\n---------\n\n  Thanks for installing Git Gutter!\n"
+					},
+					"AQAAAHsFAAAAAAAAtgUAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAewUAAAAAAAB7BQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					13,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nBracketHighlighter\n------------------\n\n  # BracketHighlighter\n  \n  Welcome to BracketHighlighter!\n  \n  A restart of Sublime Text is recommended to ensure all dependencies get  \n  loaded properly.\n  \n  For a quick start guide, please go to  \n  `Preferences->Package Settings->BracketHighlighter->Quick Start Guide`.\n"
+					},
+					"AQAAALYFAAAAAAAA8wYAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA/gEAAAAAAAD+AQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					16,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nMaterial Theme\n--------------\n\n  ## Material Theme for Sublime Text 3\n  \n  ***Important Notice***\n  \n  Please note that this package is **deprecated** and not maintained anymore!\n  You are using a mirror of a now-deleted repository.\n  See https://github.com/wbond/package_control_channel/pull/8646 for details.\n  \n  **********************************************************************************************\n  \n  For more information on the Material Theme: https://github.com/SublimeText/material-theme\n  \n  **********************************************************************************************\n  \n  # Activate the theme\n  \n  You can activate this theme from:\n  - Command palette `Tools > Command Palette` (⌘/Ctrl + ⇧ + P) by typing `Material Theme: Activate theme`.\n  - Context menu (Right click on the editor) and choose `Material Theme > Activate`\n  - `Preferences > Packages Settings` and choose `Material Theme > Activate`\n  \n  You can also manually activate this theme by adding these lines to your user settings (**Preferences > Settings - User**):\n  \n  ```json\n  \"color_scheme\": \"Packages/Material Theme/schemes/Material-Theme.tmTheme\",\n  \"theme\": \"Material-Theme.sublime-theme\",\n  ```\n  \n  **NOTE:** Restart Sublime Text after activating the theme.\n  \n  ## File icons\n  From release 4.0.0 this theme use [A File Icon](https://packagecontrol.io/packages/A%20File%20Icon) package to display file icons. Please install the package and restart Sublime Text.\n  \n  **********************************************************************************************\n  \n  # Theme options\n  \n  ```json\n  // Accent\n  \"material_theme_accent_acid-lime\"         : true, // Set acid-lime accent color\n  \"material_theme_accent_blue\"              : true, // Set blue accent color\n  \"material_theme_accent_brba\"              : true, // Set Breaking Bad green accent color\n  \"material_theme_accent_bright-teal\"       : true, // Set bright-teal accent color\n  \"material_theme_accent_cyan\"              : true, // Set cyan accent color\n  \"material_theme_accent_graphite\"          : true, // Set graphite accent color\n  \"material_theme_accent_indigo\"            : true, // Set indigo accent color\n  \"material_theme_accent_lime\"              : true, // Set lime green accent color\n  \"material_theme_accent_orange\"            : true, // Set orange accent color\n  \"material_theme_accent_pink\"              : true, // Set pink accent color\n  \"material_theme_accent_purple\"            : true, // Set purple accent color\n  \"material_theme_accent_red\"               : true, // Set pale red accent color\n  \"material_theme_accent_sky\"               : true, // Set bright-cyan accent color\n  \"material_theme_accent_tomato\"            : true, // Set tomato red accent color\n  \"material_theme_accent_yellow\"            : true, // Set yellow accent color\n  \n  // Panels\n  \"material_theme_accent_scrollbars\"        : true, // Enable accent color for scrollbars\n  \"material_theme_accent_titlebar\"          : true, // Enable accent color for titlebar\n  \"material_theme_bright_scrollbars\"        : true, // Bright scrollbars puck color\n  \"material_theme_compact_panel\"            : true, // Set minimal padding for the search panel\n  \"material_theme_contrast_mode\"            : true, // Enable sidebar and panels contrast mode\n  \"material_theme_panel_separator\"          : true, // Show bottom panel separator\n  \"material_theme_small_statusbar\"          : true, // Set small status bar\n  \"material_theme_titlebar\"                 : true, // Enable title bar (OS X 10.10+)\n  \n  // Sidebar\n  \"material_theme_arrow_folders\"            : true, // Replace folder icons with arrows\n  \"material_theme_big_fileicons\"            : true, // Show bigger file type icons\n  \"material_theme_bullet_tree_indicator\"    : true, // Set a bullet as active tree indicator\n  \"material_theme_compact_sidebar\"          : true, // Set compact side bar\n  \"material_theme_disable_fileicons\"        : true, // Hide sidebar file type icons\n  \"material_theme_disable_folder_animation\" : true, // Disable folder animation\n  \"material_theme_disable_tree_indicator\"   : true, // Disable sidebar file indicator\n  \n  // Tabs\n  \"material_theme_bold_tab\"                 : true, // Make the tab labels bolder\n  \"material_theme_small_tab\"                : true, // Set small tabs\n  \"material_theme_tabs_autowidth\"           : true, // Enable autowidth for tabs\n  \"material_theme_tabs_separator\"           : true, // Show tabs separator, this disables tab hover animation\n  \n  // If you use Material Theme - Appbar addon you can use additional settings:\n  \"material_theme_tree_headings\"            : true, // Show sidebar headings\n  ```\n  \n  **********************************************************************************************\n  \n  # Recommended settings for a better experience:\n  \n  ```json\n  \"always_show_minimap_viewport\" : true,\n  \"bold_folder_labels\"           : true,\n  \"font_options\"                 : [\"gray_antialias\", \"subpixel_antialias\"], // On retina Mac & Windows\n  \"indent_guide_options\"         : [\"draw_normal\", \"draw_active\"], // Highlight active indent\n  \"line_padding_bottom\"          : 3,\n  \"line_padding_top\"             : 3,\n  \"overlay_scroll_bars\"          : \"enabled\",\n  ```\n"
+					},
+					"AQAAAPMGAAAAAAAAdxsAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAQgAAAAAAAABIAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					17,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nayu\n---\n\n  **ayu theme for Sublime Text**\n  To learn more about ayu visit https://github.com/dempfi/ayu\n  ===============================================================================\n  \n  Activate ayu\n  \n  Open command palette via `Tools > Command Palette` (or CMD/CTRL + SHIFT + p)\n  and type `ayu: Activate theme`.\n  \n                                    ===\n  \n  You can also manually activate this theme by adding these lines to your user\n  settings (Preferences > Settings - User):\n  \n  Light:\n  ```json\n  \"theme\": \"ayu-light.sublime-theme\",\n  \"color_scheme\": \"Packages/ayu/ayu-light.sublime-color-scheme\",\n  ```\n  \n  Mirage:\n  ```json\n  \"theme\": \"ayu-mirage.sublime-theme\",\n  \"color_scheme\": \"Packages/ayu/ayu-mirage.sublime-color-scheme\",\n  ```\n  \n  Dark:\n  ```json\n  \"theme\": \"ayu-dark.sublime-theme\",\n  \"color_scheme\": \"Packages/ayu/ayu-dark.sublime-color-scheme\",\n  ```\n  \n  ================================================================================\n  \n  Ayu provides following options to customize the theme\n  \n  ```json\n  \"ui_native_titlebar\":       true, // native titlebar on macOs\n  \"ui_separator\":             true, // separators between panels\n  \"ui_wide_scrollbars\":       true, // wider scrollbars\n  ```\n"
+					},
+					"AQAAAHcbAAAAAAAASCAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAQgAAAAAAAABIAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					32,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nSublimeLinter\n-------------\n\n  \n    ____        _     _ _                _     _       _\n   / ___| _   _| |__ | (_)_ __ ___   ___| |   (_)_ __ | |_ ___ _ __\n   \\___ \\| | | | '_ \\| | | '_ ` _ \\ / _ \\ |   | | '_ \\| __/ _ \\ '__|\n    ___) | |_| | |_) | | | | | | | |  __/ |___| | | | | ||  __/ |\n   |____/ \\__,_|_.__/|_|_|_| |_| |_|\\___|_____|_|_| |_|\\__\\___|_|\n  \n  \n  *** As of April 2024, the current stable version of Sublime Text, Build 4169,\n  has a bug and cannot install SublimeLinter without a restart.  You're fine\n  if you have a later dev build, e.g. build 4173 has a better experience. ***\n  \n  \n  Welcome to SublimeLinter, a linter framework for Sublime Text.\n  \n  Linters are not included, they must be installed separately.\n  Get them from Package Control: https://packagecontrol.io/search/SublimeLinter\n  \n  *** We're in a transition phase to the newer ST4 plugin host.  Unless we have\n  more experience for the process, it _may_ be necessary to restart Sublime Text\n  after installing or upgrading helper packages.  Just check if everything works\n  or if the console shows permanent errors.  On my machine, no restarts were\n  necessary. ***\n  \n  \n  For complete documentation on how to use and configure SublimeLinter,\n  please see: http://www.sublimelinter.com\n  \n  To report issues: https://github.com/SublimeLinter/SublimeLinter\n"
+					},
+					"AQAAAEggAAAAAAAAjCUAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAQgAAAAAAAABIAAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"file": "fetchers/__init__.py",
+			"settings":
+			{
+				"buffer_size": 2487,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					7,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAABIDAAAAAAAAEwMAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAEgMAAAAAAAASAwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					8,
+					1,
+					"paste",
+					null,
+					"AQAAABMDAAAAAAAAOQMAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAEwMAAAAAAAATAwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					9,
+					1,
+					"left_delete",
+					null,
+					"AQAAADgDAAAAAAAAOAMAAAAAAAABAAAACg",
+					"AQAAAAAAAAABAAAAOQMAAAAAAAA5AwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					12,
+					1,
+					"insert",
+					{
+						"characters": "\nfetch+as"
+					},
+					"CQAAAHgFAAAAAAAAgQUAAAAAAAAAAAAAgQUAAAAAAACCBQAAAAAAAAAAAACCBQAAAAAAAIMFAAAAAAAAAAAAAIMFAAAAAAAAhAUAAAAAAAAAAAAAhAUAAAAAAACFBQAAAAAAAAAAAACFBQAAAAAAAIYFAAAAAAAAAAAAAIYFAAAAAAAAhwUAAAAAAAAAAAAAhwUAAAAAAACIBQAAAAAAAAAAAACIBQAAAAAAAIkFAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAeAUAAAAAAAB4BQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					13,
+					1,
+					"insert",
+					{
+						"characters": "j"
+					},
+					"AQAAAIkFAAAAAAAAigUAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAiQUAAAAAAACJBQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					14,
+					1,
+					"left_delete",
+					null,
+					"AQAAAIkFAAAAAAAAiQUAAAAAAAABAAAAag",
+					"AQAAAAAAAAABAAAAigUAAAAAAACKBQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					15,
+					1,
+					"insert",
+					{
+						"characters": "h3d"
+					},
+					"AwAAAIkFAAAAAAAAigUAAAAAAAAAAAAAigUAAAAAAACLBQAAAAAAAAAAAACLBQAAAAAAAIwFAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAiQUAAAAAAACJBQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					16,
+					6,
+					"left_delete",
+					null,
+					"BgAAAIsFAAAAAAAAiwUAAAAAAAABAAAAZIoFAAAAAAAAigUAAAAAAAABAAAAM4kFAAAAAAAAiQUAAAAAAAABAAAAaIgFAAAAAAAAiAUAAAAAAAABAAAAc4cFAAAAAAAAhwUAAAAAAAABAAAAYYYFAAAAAAAAhgUAAAAAAAABAAAAKw",
+					"AQAAAAAAAAABAAAAjAUAAAAAAACMBQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					17,
+					1,
+					"insert",
+					{
+						"characters": "_adh3"
+					},
+					"BQAAAIYFAAAAAAAAhwUAAAAAAAAAAAAAhwUAAAAAAACIBQAAAAAAAAAAAACIBQAAAAAAAIkFAAAAAAAAAAAAAIkFAAAAAAAAigUAAAAAAAAAAAAAigUAAAAAAACLBQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAhgUAAAAAAACGBQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					18,
+					3,
+					"left_delete",
+					null,
+					"AwAAAIoFAAAAAAAAigUAAAAAAAABAAAAM4kFAAAAAAAAiQUAAAAAAAABAAAAaIgFAAAAAAAAiAUAAAAAAAABAAAAZA",
+					"AQAAAAAAAAABAAAAiwUAAAAAAACLBQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					19,
+					1,
+					"insert",
+					{
+						"characters": "sh3d_layers,"
+					},
+					"DAAAAIgFAAAAAAAAiQUAAAAAAAAAAAAAiQUAAAAAAACKBQAAAAAAAAAAAACKBQAAAAAAAIsFAAAAAAAAAAAAAIsFAAAAAAAAjAUAAAAAAAAAAAAAjAUAAAAAAACNBQAAAAAAAAAAAACNBQAAAAAAAI4FAAAAAAAAAAAAAI4FAAAAAAAAjwUAAAAAAAAAAAAAjwUAAAAAAACQBQAAAAAAAAAAAACQBQAAAAAAAJEFAAAAAAAAAAAAAJEFAAAAAAAAkgUAAAAAAAAAAAAAkgUAAAAAAACTBQAAAAAAAAAAAACTBQAAAAAAAJQFAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAiAUAAAAAAACIBQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					33,
+					1,
+					"paste",
+					null,
+					"AQAAAAAAAAAAAAAAtwkAAAAAAADdCQAAIiIiCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CkRTQ0EgRXhwbG9yZXIgRmV0Y2hlcnMgUGFja2FnZQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKRXhwb3NlczoKLSBJbmRpdmlkdWFsIGZldGNoZXIgZnVuY3Rpb25zIGZvciBGRU1BLCBISUZMRCwgTk9BQSwgVVNHUywgRVBBLCBOQVNBLgotIFV0aWxpdHkgZnVuY3Rpb25zIGZvciBzZXJpZXMgcHJlZml4LCBjYXRlZ29yeSBpbmZlcmVuY2UsIGhhc2hpbmcsIGVuZHBvaW50IG5hbWluZy4KLSBmZXRjaF9hbGxfbGF5ZXJzKCk6IGZldGNoZXMgYWxsIGxheWVycyBmcm9tIGFsbCBzb3VyY2VzIGluIHBhcmFsbGVsLgoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KIiIiCgpmcm9tIC5mZW1hIGltcG9ydCBmZXRjaF9hcmNnaXNfbGF5ZXJzX2FsbCwgZmV0Y2hfYXJjZ2lzX2xheWVycywgZmV0Y2hfb3BlbmZlbWFfbGF5ZXJzCmZyb20gLmhpZmxkIGltcG9ydCBmZXRjaF9oaWZsZF9sYXllcnMKZnJvbSAubm9hYSBpbXBvcnQgZmV0Y2hfbm9hYV9sYXllcnMKZnJvbSAudXNncyBpbXBvcnQgZmV0Y2hfdXNnc19sYXllcnMKZnJvbSAuZXBhIGltcG9ydCBmZXRjaF9lcGFfbGF5ZXJzCmZyb20gLm5hc2EgaW1wb3J0IGZldGNoX25hc2FfbGF5ZXJzCmZyb20gLmFzaDNkIGltcG9ydCBmZXRjaF9hc2gzZF9sYXllcnMKZnJvbSAudXRpbHMgaW1wb3J0IGdldF9zZXJpZXNfcHJlZml4LCBpbmZlcl9jYXRlZ29yeV9mcm9tX3NlcnZpY2UsIGxheWVyX2hhc2gsIGdldF9lbmRwb2ludF9uYW1lCgpkZWYgZmV0Y2hfYWxsX2xheWVycyhwcm9ncmVzc19jYj1Ob25lKToKICAgICIiIgogICAgRmV0Y2ggYWxsIGxheWVycyBmcm9tIGFsbCBzb3VyY2VzIGluIHBhcmFsbGVsLgogICAgUmV0dXJucyBhIGNvbWJpbmVkIGxpc3Qgb2YgYWxsIGxheWVycy4KICAgICIiIgogICAgZnJvbSBjb25jdXJyZW50LmZ1dHVyZXMgaW1wb3J0IFRocmVhZFBvb2xFeGVjdXRvciwgYXNfY29tcGxldGVkCiAgICBmcm9tIC51dGlscyBpbXBvcnQgZ2V0X29wdGltYWxfd29ya2VycwoKICAgIGZldGNoZXJzID0gWwogICAgICAgIGZldGNoX2FyY2dpc19sYXllcnNfYWxsLAogICAgICAgIGZldGNoX29wZW5mZW1hX2xheWVycywKICAgICAgICBmZXRjaF9oaWZsZF9sYXllcnMsCiAgICAgICAgZmV0Y2hfbm9hYV9sYXllcnMsCiAgICAgICAgZmV0Y2hfdXNnc19sYXllcnMsCiAgICAgICAgZmV0Y2hfZXBhX2xheWVycywKICAgICAgICBmZXRjaF9uYXNhX2xheWVycywKICAgICAgICBmZXRjaF9hc2gzZF9sYXllcnMsCiAgICBdCiAgICBuYW1lcyA9IFsKICAgICAgICAiRkVNQSBBcmNHSVMiLAogICAgICAgICJPcGVuRkVNQSIsCiAgICAgICAgIkhJRkxEIiwKICAgICAgICAiTk9BQSIsCiAgICAgICAgIlVTR1MiLAogICAgICAgICJFUEEiLAogICAgICAgICJOQVNBIgogICAgXQogICAgbWF4X3dvcmtlcnMgPSBtaW4oZ2V0X29wdGltYWxfd29ya2VycygpLCBsZW4oZmV0Y2hlcnMpKQogICAgYWxsX2xheWVycyA9IFtdCiAgICBlcnJvcnMgPSBbXQoKICAgIGRlZiBydW5fZmV0Y2hlcihmZXRjaGVyLCBuYW1lKToKICAgICAgICB0cnk6CiAgICAgICAgICAgIHJlc3VsdCA9IGZldGNoZXIocHJvZ3Jlc3NfY2IpCiAgICAgICAgICAgICMgU29tZSBmZXRjaGVycyByZXR1cm4gZGljdHMgd2l0aCAnbGF5ZXJzJywgb3RoZXJzIHJldHVybiBsaXN0cwogICAgICAgICAgICBpZiBpc2luc3RhbmNlKHJlc3VsdCwgZGljdCkgYW5kICJsYXllcnMiIGluIHJlc3VsdDoKICAgICAgICAgICAgICAgIHJldHVybiByZXN1bHRbImxheWVycyJdCiAgICAgICAgICAgIHJldHVybiByZXN1bHQKICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgICAgIGVycm9ycy5hcHBlbmQoKG5hbWUsIHN0cihlKSkpCiAgICAgICAgICAgIHByaW50KGYiRXJyb3IgaW4ge25hbWV9OiB7ZX0iKQogICAgICAgICAgICByZXR1cm4gW10KCiAgICB3aXRoIFRocmVhZFBvb2xFeGVjdXRvcihtYXhfd29ya2Vycz1tYXhfd29ya2VycykgYXMgZXhlY3V0b3I6CiAgICAgICAgZnV0dXJlcyA9IHtleGVjdXRvci5zdWJtaXQocnVuX2ZldGNoZXIsIGZldGNoZXIsIG5hbWUpOiBuYW1lIGZvciBmZXRjaGVyLCBuYW1lIGluIHppcChmZXRjaGVycywgbmFtZXMpfQogICAgICAgIGZvciBmdXR1cmUgaW4gYXNfY29tcGxldGVkKGZ1dHVyZXMpOgogICAgICAgICAgICBsYXllcnMgPSBmdXR1cmUucmVzdWx0KCkKICAgICAgICAgICAgYWxsX2xheWVycy5leHRlbmQobGF5ZXJzKQoKICAgIGlmIGVycm9yczoKICAgICAgICBmb3IgbmFtZSwgZXJyIGluIGVycm9yczoKICAgICAgICAgICAgcHJpbnQoZiJFcnJvciBpbiB7bmFtZX06IHtlcnJ9IikKCiAgICByZXR1cm4gYWxsX2xheWVycwo",
+					"AQAAAAAAAAABAAAAAAAAAAAAAADdCQAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"contents": "\"\"\"\n================================================================================\nDSCA Explorer GUI - Change Log\n================================================================================\n\nBEFORE:\n-------\n- Called detect_new_or_updated_layers(layers) and unpacked two lists:\n    new_layers, updated_layers = detect_new_or_updated_layers(layers)\n- Used dictionaries for new/updated layers and referenced fields like l['name'].\n- Popup for changes listed all new/updated layers.\n- Dad joke fetched from a single API (icanhazdadjoke.com), with fallback message if unavailable.\n\nAFTER:\n------\n- Now calls detect_new_or_updated_layers(layers) and receives a single list of\n  ChangeRecord objects.\n- Filters for new and updated layers using:\n    new_layers = [c for c in changes if c.change_type == \"NEW\"]\n    updated_layers = [c for c in changes if c.change_type == \"UPDATED\"]\n- References ChangeRecord fields (e.g., c.layer_id, c.source) instead of dict keys.\n- Popup and UI logic updated to show only counts of new/updated layers, not full lists.\n- Dad joke fetching is now robust: tries multiple APIs in order (icanhazdadjoke.com,\n  official-joke-api.appspot.com, v2.jokeapi.dev) and uses the first successful result.\n- No other logic or UI changes required.\n\n=== DAD JOKE===\nSSL Errors for this :( Sorry!\n    @staticmethod\n    def get_dad_joke():\n        joke = None\n\n        # 1. Try icanhazdadjoke.com\n        try:\n            headers = {\"Accept\": \"application/json\", \"User-Agent\": \"DSCA Data Explorer (https://github.com/dj-dev01/dsca_data_explorer)\"}\n            resp = requests.get(\"https://icanhazdadjoke.com/\", headers=headers, timeout=5, verify=certifi.where())\n            if resp.status_code == 200:\n                joke = resp.json().get(\"joke\")\n                if joke:\n                    return joke\n        except Exception as e:\n            print(\"icanhazdadjoke error:\", e)\n\n        # 2. Try Official Joke API\n        try:\n            resp = requests.get(\"https://official-joke-api.appspot.com/random_joke\", timeout=5, verify=certifi.where())\n            if resp.status_code == 200:\n                data = resp.json()\n                setup = data.get('setup', '')\n                punchline = data.get('punchline', '')\n                joke = f\"{setup} {punchline}\".strip()\n                if joke and (setup or punchline):\n                    return joke\n        except Exception as e:\n            print(\"official-joke-api error:\", e)\n\n        # 3. Try JokeAPI (Miscellaneous category, single-part jokes)\n        try:\n            resp = requests.get(\"https://v2.jokeapi.dev/joke/Miscellaneous?type=single\", timeout=5, verify=certifi.where())\n            if resp.status_code == 200:\n                data = resp.json()\n                joke = data.get(\"joke\")\n                if joke:\n                    return joke\n        except Exception as e:\n            print(\"jokeapi error:\", e)\n\n        return \"Couldn't fetch a dad joke right now!\"\n================================================================================\n\"\"\"\n\nimport tkinter as tk\nfrom tkinter import ttk, filedialog, messagebox, scrolledtext\nimport threading\nimport webbrowser\nimport concurrent.futures\nimport json\n\nimport requests\n# import certifi\n\nfrom .config import DOC_URLS\nfrom .fetchers import (\n    fetch_arcgis_layers_all, fetch_openfema_layers, fetch_hifld_layers,\n    fetch_noaa_layers, fetch_usgs_layers, fetch_epa_layers, fetch_nasa_layers,\n    fetch_ash3d_layers, get_endpoint_name\n)\nfrom .export import export_layers\nfrom .cache import detect_new_or_updated_layers\n\n\ndef run_gui():\n    root = tk.Tk()\n    app = DSCARestAPIExplorer(root)\n    root.mainloop()\n\nclass DSCARestAPIExplorer:\n    def __init__(self, root):\n        self.root = root\n        self.root.title(\"DSCA Data Explorer\")\n        self.root.geometry(\"1450x1100\")\n        self.all_layers = []\n        self.filtered_layers = []\n        self.sort_reverse = False\n        self.source_counts = {\n            \"FEMA\": 0, \"OpenFEMA\": 0, \"HIFLD\": 0, \"NOAA\": 0, \"USGS\": 0, \"EPA\": 0, \"NASA\": 0\n        }\n        self.create_widgets()\n\n    def show_wide_popup(self, title, message, width=80):\n        popup = tk.Toplevel(self.root)\n        popup.title(title)\n        popup.geometry(f\"{width*8}x200\")  # width in pixels, height in pixels\n        popup.transient(self.root)\n        popup.grab_set()\n        label = tk.Label(popup, text=message, justify=\"left\", anchor=\"nw\", wraplength=width*8)\n        label.pack(fill=\"both\", expand=True, padx=20, pady=20)\n        button = ttk.Button(popup, text=\"OK\", command=popup.destroy)\n        button.pack(pady=(0, 10))\n        popup.focus_set()\n        popup.wait_window()\n\n    def create_widgets(self):\n        main_container = ttk.Frame(self.root, padding=10)\n        main_container.pack(fill=tk.BOTH, expand=True)\n\n        self.counter_var = tk.StringVar(value=\"FEMA: 0 | OpenFEMA: 0 | HIFLD: 0 | NOAA: 0 | USGS: 0 | EPA: 0 | NASA: 0 | Total: 0\")\n        counter_label = ttk.Label(main_container, textvariable=self.counter_var, font=(\"Arial\", 11, \"bold\"))\n        counter_label.pack(anchor=tk.W, pady=(0, 5))\n\n        header_frame = ttk.Frame(main_container)\n        header_frame.pack(fill=tk.X, pady=(0, 10))\n        ttk.Label(header_frame, text=\"DSCA Data Explorer\", font=(\"Arial\", 14, \"bold\")).pack(anchor=tk.W)\n        ttk.Label(header_frame, text=\"Explore and export FEMA, HIFLD, OpenFEMA, NOAA, USGS, EPA, NASA REST API layers\", font=(\"Arial\", 10)).pack(anchor=tk.W)\n\n        paned_window = ttk.PanedWindow(main_container, orient=tk.VERTICAL)\n        paned_window.pack(fill=tk.BOTH, expand=True)\n\n        top_frame = ttk.Frame(paned_window, padding=5)\n        bottom_frame = ttk.LabelFrame(paned_window, text=\"Layer Details\", padding=5)\n        paned_window.add(top_frame, weight=2)\n        paned_window.add(bottom_frame, weight=1)\n\n        control_frame = ttk.Frame(top_frame)\n        control_frame.pack(fill=tk.X, pady=(0, 5))\n\n        status_frame = ttk.Frame(control_frame)\n        status_frame.pack(side=tk.LEFT, fill=tk.X, expand=True)\n        self.status_var = tk.StringVar(value=\"Ready\")\n        ttk.Label(status_frame, textvariable=self.status_var).pack(side=tk.LEFT)\n        self.progress = ttk.Progressbar(status_frame, orient=tk.HORIZONTAL, mode=\"indeterminate\")\n        self.progress.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=10)\n        self.progress_label = tk.StringVar(value=\"\")\n        ttk.Label(status_frame, textvariable=self.progress_label, font=(\"Arial\", 9)).pack(side=tk.LEFT, padx=5)\n\n        button_frame = ttk.Frame(control_frame)\n        button_frame.pack(side=tk.RIGHT, padx=5)\n        ttk.Button(button_frame, text=\"Fetch Layers\", command=self.fetch_layers).pack(side=tk.LEFT, padx=2)\n        ttk.Button(button_frame, text=\"Select All\", command=self.select_all).pack(side=tk.LEFT, padx=2)\n        ttk.Button(button_frame, text=\"Clear\", command=self.clear_selection).pack(side=tk.LEFT, padx=2)\n        ttk.Button(button_frame, text=\"Export\", command=self.export_selected).pack(side=tk.LEFT, padx=2)\n        ttk.Button(button_frame, text=\"Export Changes\", command=self.export_changes).pack(side=tk.LEFT, padx=2)\n\n        filter_frame = ttk.LabelFrame(top_frame, text=\"Filters\", padding=5)\n        filter_frame.pack(fill=tk.X, pady=5)\n\n        ttk.Label(filter_frame, text=\"Source:\").grid(row=0, column=0, padx=2, sticky=tk.W)\n        self.endpoint_var = tk.StringVar(value=\"All\")\n        self.endpoint_combo = ttk.Combobox(filter_frame, textvariable=self.endpoint_var, state=\"readonly\")\n        self.endpoint_combo.grid(row=0, column=1, padx=2, sticky=tk.EW)\n        self.endpoint_combo['values'] = [\n            \"All\"\n        ] + [get_endpoint_name(url) for url in [\n            \"https://gis.fema.gov/arcgis/rest/services/FEMA\",\n            \"https://hazards.fema.gov/arcgis/rest/services\",\n            \"https://hazards.fema.gov/arcgis/rest/services/public/NFHL\"\n        ]] + [\n            \"OpenFEMA\", \"HIFLD\", \"NOAA\", \"USGS\", \"EPA\", \"NASA\"\n        ]\n        self.endpoint_combo.bind(\"<<ComboboxSelected>>\", lambda e: self.apply_filters())\n\n        ttk.Label(filter_frame, text=\"Format:\").grid(row=0, column=2, padx=2, sticky=tk.W)\n        self.format_var = tk.StringVar(value=\"All\")\n        self.format_combo = ttk.Combobox(filter_frame, textvariable=self.format_var, values=[\"All\"], state=\"readonly\")\n        self.format_combo.grid(row=0, column=3, padx=2, sticky=tk.EW)\n        self.format_combo.bind(\"<<ComboboxSelected>>\", lambda e: self.apply_filters())\n\n        ttk.Label(filter_frame, text=\"Type:\").grid(row=0, column=4, padx=2, sticky=tk.W)\n        self.type_var = tk.StringVar(value=\"All\")\n        self.type_combo = ttk.Combobox(filter_frame, textvariable=self.type_var,\n                                values=[\"All\"], state=\"readonly\")\n        self.type_combo.grid(row=0, column=5, padx=2, sticky=tk.EW)\n        self.type_combo.bind(\"<<ComboboxSelected>>\", lambda e: self.apply_filters())\n\n        ttk.Label(filter_frame, text=\"Search:\").grid(row=1, column=0, padx=2, sticky=tk.W)\n        self.search_var = tk.StringVar()\n        search_entry = ttk.Entry(filter_frame, textvariable=self.search_var)\n        search_entry.grid(row=1, column=1, columnspan=5, padx=2, sticky=tk.EW)\n        search_entry.bind(\"<KeyRelease>\", lambda e: self.apply_filters())\n\n        tree_frame = ttk.Frame(top_frame)\n        tree_frame.pack(fill=tk.BOTH, expand=True)\n        \n        columns = (\"name\", \"type\", \"endpoint\", \"formats\")\n        self.tree = ttk.Treeview(tree_frame, columns=columns, show=\"tree headings\", selectmode=\"extended\")\n        col_settings = [\n            (\"Layer Name\", 400),\n            (\"Type\", 100),\n            (\"Endpoint\", 500),\n            (\"Formats\", 100)\n        ]\n        for idx, (col, (heading, width)) in enumerate(zip(columns, col_settings)):\n            self.tree.heading(col, text=heading, command=lambda c=col: self.sort_by_column(c))\n            self.tree.column(col, width=width, minwidth=width//2)\n\n        vsb = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.tree.yview)\n        hsb = ttk.Scrollbar(tree_frame, orient=tk.HORIZONTAL, command=self.tree.xview)\n        self.tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)\n        \n        self.tree.grid(row=0, column=0, sticky=tk.NSEW)\n        vsb.grid(row=0, column=1, sticky=tk.NS)\n        hsb.grid(row=1, column=0, sticky=tk.EW)\n        tree_frame.grid_rowconfigure(0, weight=1)\n        tree_frame.grid_columnconfigure(0, weight=1)\n        self.tree.bind(\"<<TreeviewSelect>>\", self.show_layer_details)\n        self.tree.bind(\"<Button-3>\", self.show_context_menu)\n\n        self.details_text = scrolledtext.ScrolledText(bottom_frame, wrap=tk.WORD)\n        self.details_text.pack(fill=tk.BOTH, expand=True)\n\n        self.context_menu = tk.Menu(self.root, tearoff=0)\n        self.context_menu.add_command(label=\"Copy Cell\", command=self.copy_cell)\n        self.context_menu.add_command(label=\"Copy Row\", command=self.copy_row)\n\n\n    def select_all(self):\n        # Only select leaf nodes (not group nodes)\n        if not hasattr(self, \"group_nodes\"):\n            return\n        for group_id in self.group_nodes.values():\n            for child in self.tree.get_children(group_id):\n                self.tree.selection_add(child)\n\n    def clear_selection(self):\n        self.tree.selection_remove(self.tree.get_children())\n\n    def fetch_layers(self):\n        self.status_var.set(\"Fetching layers...\")\n        self.progress[\"mode\"] = \"indeterminate\"\n        self.progress.start()\n        self.progress_label.set(\"Fetching all sources in parallel...\")\n        threading.Thread(target=self._multifetch_layers_thread, daemon=True).start()\n\n    def _multifetch_layers_thread(self):\n        fetch_funcs = [\n            fetch_arcgis_layers_all,\n            fetch_openfema_layers,\n            fetch_hifld_layers,\n            fetch_noaa_layers,\n            fetch_usgs_layers,\n            fetch_epa_layers,\n            fetch_nasa_layers,\n        ]\n        layers = []\n        source_counts = {k: 0 for k in self.source_counts}\n        with concurrent.futures.ThreadPoolExecutor(max_workers=len(fetch_funcs)) as executor:\n            futures = [executor.submit(f) for f in fetch_funcs]\n            for future in concurrent.futures.as_completed(futures):\n                result = future.result()\n                if isinstance(result, dict):  # For arcgis, which returns {'layers':..., 'count':...}\n                    layers.extend(result['layers'])\n                    source_counts['FEMA'] = result.get('count', 0)\n                elif isinstance(result, list):\n                    layers.extend(result)\n        for src in [\"OpenFEMA\", \"HIFLD\", \"NOAA\", \"USGS\", \"EPA\", \"NASA\"]:\n            source_counts[src] = len([l for l in layers if l.get(\"source\") == src])\n        changes = detect_new_or_updated_layers(layers)\n        new_layers = [c for c in changes if c.change_type == \"NEW\"]\n        updated_layers = [c for c in changes if c.change_type == \"UPDATED\"]\n        self.all_layers = layers\n        self.source_counts = source_counts\n        self.root.after(0, self._update_ui_after_fetch)\n        self.last_changes = changes  # Store for export_changes button\n        if new_layers or updated_layers:\n            msg = (\n                f\"New layers detected: {len(new_layers)}\\n\"\n                f\"Updated layers detected: {len(updated_layers)}\\n\\n\"\n                \"Remember, this is thrown together by a non-nerd! If a real nerd wants to take over, \"\n                \"please let me add them as contributor on Github. Also, D.J. loves you! ❤️\\n\\n\"\n            )\n\n            #joke = self.get_dad_joke()\n            #msg += f\"Free dad joke for testing my contraption:\\n{joke}\"\n\n            self.root.after(0, lambda: self.show_wide_popup(\"Change Summary\", msg, width=100))\n\n    def update_filter_options(self):\n        sources = set()\n        formats = set()\n        types = set()\n        for layer in self.all_layers:\n            sources.add(layer.get(\"source\", \"\"))\n            fmt = layer.get(\"formats\", \"\")\n            if isinstance(fmt, str):\n                for f in fmt.split(\",\"):\n                    formats.add(f.strip())\n            elif isinstance(fmt, list):\n                for f in fmt:\n                    formats.add(str(f).strip())\n            types.add(layer.get(\"type\", \"\"))\n\n        source_values = [\"All\"] + sorted(s for s in sources if s)\n        format_values = [\"All\"] + sorted(f for f in formats if f)\n        type_values = [\"All\"] + sorted(t for t in types if t)\n\n        self.endpoint_combo['values'] = source_values\n        self.format_combo['values'] = format_values\n        self.type_combo['values'] = type_values\n\n        # Optionally reset to \"All\" after updating\n        self.endpoint_var.set(\"All\")\n        self.format_var.set(\"All\")\n        self.type_var.set(\"All\")\n\n\n    def export_changes(self):\n        if not hasattr(self, \"last_changes\") or not self.last_changes:\n            messagebox.showinfo(\"Export Changes\", \"No changes to export. Please fetch layers first.\")\n            return\n\n        formats = [(\"CSV\", \"*.csv\"), (\"Excel\", \"*.xlsx\"), (\"JSON\", \"*.json\"), (\"Text\", \"*.txt\"), (\"Word\", \"*.docx\"), (\"PDF\", \"*.pdf\")]\n        filetypes = formats\n        file_path = filedialog.asksaveasfilename(defaultextension=\".csv\", filetypes=filetypes)\n        if not file_path:\n            return\n\n        try:\n            from .export import export_changes as export_changes_func\n            # Determine format from file extension\n            fmt = file_path.split('.')[-1].lower()\n            export_changes_func(self.last_changes, fmt, file_path)\n            messagebox.showinfo(\"Export Changes\", f\"Exported {len(self.last_changes)} changes to {file_path}\")\n        except Exception as e:\n            messagebox.showerror(\"Export Error\", str(e))\n\n\n\n    def _update_ui_after_fetch(self):\n        total = sum(self.source_counts.values())\n        self.counter_var.set(\n            f\"FEMA: {self.source_counts['FEMA']} | OpenFEMA: {self.source_counts['OpenFEMA']} | HIFLD: {self.source_counts['HIFLD']} | NOAA: {self.source_counts['NOAA']} | USGS: {self.source_counts['USGS']} | EPA: {self.source_counts['EPA']} | NASA: {self.source_counts['NASA']} | Total: {total}\"\n        )\n        self.progress.stop()\n        self.status_var.set(f\"Found {total} layers\")\n        self.progress_label.set(\"\")\n        self.update_filter_options()\n        self.apply_filters()\n\n    def apply_filters(self):\n        endpoint = self.endpoint_var.get()\n        fmt = self.format_var.get()\n        typ = self.type_var.get()\n        search = self.search_var.get().lower()\n        self.filtered_layers = []\n        for layer in self.all_layers:\n            if endpoint != \"All\":\n                if endpoint == \"OpenFEMA\" and layer[\"type\"] != \"OpenFEMA\":\n                    continue\n                elif endpoint == \"HIFLD\" and layer[\"type\"] != \"HIFLD\":\n                    continue\n                elif endpoint == \"NOAA\" and not layer[\"type\"].startswith(\"NOAA\"):\n                    continue\n                elif endpoint == \"USGS\" and not layer[\"type\"].startswith(\"USGS\"):\n                    continue\n                elif endpoint == \"EPA\" and not layer[\"type\"].startswith(\"EPA\"):\n                    continue\n                elif endpoint == \"NASA\" and not layer[\"type\"].startswith(\"NASA\"):\n                    continue\n                elif endpoint not in [\"OpenFEMA\", \"HIFLD\", \"NOAA\", \"USGS\", \"EPA\", \"NASA\"] and endpoint not in get_endpoint_name(str(layer[\"endpoint\"])):\n                    continue\n            if fmt != \"All\" and fmt not in layer[\"formats\"]:\n                continue\n            if typ != \"All\" and typ != layer[\"type\"]:\n                continue\n            if search and search not in layer[\"name\"].lower():\n                continue\n            self.filtered_layers.append(layer)\n        self._populate_tree()\n\n    def _populate_tree(self):\n        self.tree.delete(*self.tree.get_children())\n        groups = {}\n        for layer in self.filtered_layers:\n            group = layer.get(\"series\", \"Other\")\n            if group not in groups:\n                groups[group] = []\n            groups[group].append(layer)\n        self.group_nodes = {}\n        for group in sorted(groups.keys()):\n            group_label = f\"{group} ({len(groups[group])})\"\n            group_id = self.tree.insert(\"\", tk.END, text=group_label, values=(\"\", \"\", \"\", \"\"))\n            self.group_nodes[group] = group_id\n            for layer in sorted(groups[group], key=lambda l: l[\"name\"].lower()):\n                self.tree.insert(group_id, tk.END, values=(\n                    layer[\"name\"], layer[\"type\"], layer[\"endpoint\"], layer[\"formats\"]\n                ))\n\n    def show_layer_details(self, event=None):\n        selected = self.tree.selection()\n        if not selected:\n            self.details_text.delete(1.0, tk.END)\n            return\n        item = self.tree.item(selected[0])\n        values = item[\"values\"]\n        if not values or not values[0]:\n            self.details_text.delete(1.0, tk.END)\n            return\n        layer = next((l for l in self.filtered_layers if l[\"name\"] == values[0] and l[\"endpoint\"] == values[2]), None)\n        if not layer:\n            self.details_text.delete(1.0, tk.END)\n            return\n        details = f\"Name: {layer['name']}\\nType: {layer['type']}\\nEndpoint: {layer['endpoint']}\\nFormats: {layer['formats']}\\n\"\n        if layer.get(\"description\"):\n            details += f\"\\nDescription:\\n{layer['description']}\\n\"\n        if layer.get(\"dataDictionary\"):\n            details += f\"\\nData Dictionary: {layer['dataDictionary']}\\n\"\n        if layer.get(\"landingPage\"):\n            details += f\"\\nLanding Page: {layer['landingPage']}\\n\"\n        details += \"\\nAll Properties:\\n\"\n        details += json.dumps(layer.get(\"properties\", {}), indent=2)\n        self.details_text.delete(1.0, tk.END)\n        self.details_text.insert(tk.END, details)\n        self.details_text.tag_configure(\"url\", foreground=\"blue\", underline=True)\n        for key in [\"endpoint\", \"url\", \"dataDictionary\", \"landingPage\"]:\n            url = layer.get(key)\n            if url and url.startswith(\"http\"):\n                idx = self.details_text.search(url, \"1.0\", tk.END)\n                if idx:\n                    end = f\"{idx}+{len(url)}c\"\n                    self.details_text.tag_add(\"url\", idx, end)\n                    self.details_text.tag_bind(\"url\", \"<Button-1>\", lambda e, url=url: webbrowser.open(url))\n\n    def export_selected(self):\n        selected = self.tree.selection()\n        if not selected:\n            messagebox.showinfo(\"Export\", \"No layers selected.\")\n            return\n        layers = []\n        for sel in selected:\n            item = self.tree.item(sel)\n            values = item[\"values\"]\n            if not values or not values[0]:\n                continue\n            layer = next((l for l in self.filtered_layers if l[\"name\"] == values[0] and l[\"endpoint\"] == values[2]), None)\n            if layer:\n                layers.append(layer)\n        if not layers:\n            messagebox.showinfo(\"Export\", \"No layers selected.\")\n            return\n\n        formats = [(\"CSV\", \"*.csv\"), (\"Excel\", \"*.xlsx\"), (\"JSON\", \"*.json\"), (\"Text\", \"*.txt\"), (\"Word\", \"*.docx\"), (\"PDF\", \"*.pdf\")]\n        filetypes = formats\n        file_path = filedialog.asksaveasfilename(defaultextension=\".csv\", filetypes=filetypes)\n        if not file_path:\n            return\n\n        try:\n            export_layers(layers, file_path)\n            messagebox.showinfo(\"Export\", f\"Exported {len(layers)} layers to {file_path}\")\n        except Exception as e:\n            messagebox.showerror(\"Export Error\", str(e))\n\n    def sort_by_column(self, col):\n        self.sort_reverse = not self.sort_reverse\n        self.filtered_layers.sort(key=lambda x: x.get(col, \"\").lower() if isinstance(x.get(col, \"\"), str) else str(x.get(col, \"\")), reverse=self.sort_reverse)\n        self._populate_tree()\n\n    def show_context_menu(self, event):\n        rowid = self.tree.identify_row(event.y)\n        col = self.tree.identify_column(event.x)\n        if rowid and col:\n            self.tree.selection_set(rowid)\n            self.context_menu.post(event.x_root, event.y_root)\n            self._context_rowid = rowid\n            self._context_col = int(col.replace(\"#\", \"\")) - 1\n\n    def copy_cell(self):\n        item = self.tree.item(self._context_rowid)\n        value = item[\"values\"][self._context_col]\n        self.root.clipboard_clear()\n        self.root.clipboard_append(str(value))\n\n    def copy_row(self):\n        item = self.tree.item(self._context_rowid)\n        values = item[\"values\"]\n        self.root.clipboard_clear()\n        self.root.clipboard_append(\"\\t\".join(str(v) for v in values))\n\n    def quick_filter(self, label):\n        self.search_var.set(label.lower())\n        self.apply_filters()\n",
+			"file": "gui.py",
+			"file_size": 22853,
+			"file_write_time": 133927791663573984,
+			"settings":
+			{
+				"buffer_size": 22872,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					61,
+					1,
+					"insert",
+					{
+						"characters": "fetch)"
+					},
+					"BgAAAHYNAAAAAAAAdw0AAAAAAAAAAAAAdw0AAAAAAAB4DQAAAAAAAAAAAAB4DQAAAAAAAHkNAAAAAAAAAAAAAHkNAAAAAAAAeg0AAAAAAAAAAAAAeg0AAAAAAAB7DQAAAAAAAAAAAAB7DQAAAAAAAHwNAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAdg0AAAAAAAB2DQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					62,
+					1,
+					"left_delete",
+					null,
+					"AQAAAHsNAAAAAAAAew0AAAAAAAABAAAAKQ",
+					"AQAAAAAAAAABAAAAfA0AAAAAAAB8DQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					63,
+					1,
+					"insert",
+					{
+						"characters": "_adh3d"
+					},
+					"BgAAAHsNAAAAAAAAfA0AAAAAAAAAAAAAfA0AAAAAAAB9DQAAAAAAAAAAAAB9DQAAAAAAAH4NAAAAAAAAAAAAAH4NAAAAAAAAfw0AAAAAAAAAAAAAfw0AAAAAAACADQAAAAAAAAAAAACADQAAAAAAAIENAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAew0AAAAAAAB7DQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					64,
+					4,
+					"left_delete",
+					null,
+					"BAAAAIANAAAAAAAAgA0AAAAAAAABAAAAZH8NAAAAAAAAfw0AAAAAAAABAAAAM34NAAAAAAAAfg0AAAAAAAABAAAAaH0NAAAAAAAAfQ0AAAAAAAABAAAAZA",
+					"AQAAAAAAAAABAAAAgQ0AAAAAAACBDQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					65,
+					1,
+					"insert",
+					{
+						"characters": "sh2d"
+					},
+					"BAAAAH0NAAAAAAAAfg0AAAAAAAAAAAAAfg0AAAAAAAB/DQAAAAAAAAAAAAB/DQAAAAAAAIANAAAAAAAAAAAAAIANAAAAAAAAgQ0AAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAfQ0AAAAAAAB9DQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					66,
+					2,
+					"left_delete",
+					null,
+					"AgAAAIANAAAAAAAAgA0AAAAAAAABAAAAZH8NAAAAAAAAfw0AAAAAAAABAAAAMg",
+					"AQAAAAAAAAABAAAAgQ0AAAAAAACBDQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					67,
+					1,
+					"insert",
+					{
+						"characters": "3dL"
+					},
+					"AwAAAH8NAAAAAAAAgA0AAAAAAAAAAAAAgA0AAAAAAACBDQAAAAAAAAAAAACBDQAAAAAAAIINAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAfw0AAAAAAAB/DQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					68,
+					1,
+					"left_delete",
+					null,
+					"AQAAAIENAAAAAAAAgQ0AAAAAAAABAAAATA",
+					"AQAAAAAAAAABAAAAgg0AAAAAAACCDQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					69,
+					1,
+					"insert",
+					{
+						"characters": "_layers,"
+					},
+					"CAAAAIENAAAAAAAAgg0AAAAAAAAAAAAAgg0AAAAAAACDDQAAAAAAAAAAAACDDQAAAAAAAIQNAAAAAAAAAAAAAIQNAAAAAAAAhQ0AAAAAAAAAAAAAhQ0AAAAAAACGDQAAAAAAAAAAAACGDQAAAAAAAIcNAAAAAAAAAAAAAIcNAAAAAAAAiA0AAAAAAAAAAAAAiA0AAAAAAACJDQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAgQ0AAAAAAACBDQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					70,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAAIkNAAAAAAAAig0AAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAiQ0AAAAAAACJDQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					71,
+					1,
+					"left_delete",
+					null,
+					"AQAAAIkNAAAAAAAAiQ0AAAAAAAABAAAAIA",
+					"AQAAAAAAAAABAAAAig0AAAAAAACKDQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					72,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAAIkNAAAAAAAAig0AAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAiQ0AAAAAAACJDQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					86,
+					1,
+					"left_delete",
+					null,
+					"AQAAAKQMAAAAAAAApAwAAAAAAAABAAAACg",
+					"AQAAAAAAAAABAAAApQwAAAAAAAClDAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					97,
+					1,
+					"paste",
+					null,
+					"AQAAAOkLAAAAAAAAEg4AAAAAAAAFAgAAaW1wb3J0IHRraW50ZXIgYXMgdGsKZnJvbSB0a2ludGVyIGltcG9ydCB0dGssIGZpbGVkaWFsb2csIG1lc3NhZ2Vib3gsIHNjcm9sbGVkdGV4dAppbXBvcnQgdGhyZWFkaW5nCmltcG9ydCB3ZWJicm93c2VyCmltcG9ydCBjb25jdXJyZW50LmZ1dHVyZXMKaW1wb3J0IGpzb24KaW1wb3J0IHJlcXVlc3RzCiNpbXBvcnQgY2VydGlmaQpmcm9tIC5jb25maWcgaW1wb3J0IERPQ19VUkxTCmZyb20gLmZldGNoZXJzIGltcG9ydCAoCiAgICBmZXRjaF9hcmNnaXNfbGF5ZXJzX2FsbCwgZmV0Y2hfb3BlbmZlbWFfbGF5ZXJzLCBmZXRjaF9oaWZsZF9sYXllcnMsCiAgICBmZXRjaF9ub2FhX2xheWVycywgZmV0Y2hfdXNnc19sYXllcnMsIGZldGNoX2VwYV9sYXllcnMsIGZldGNoX25hc2FfbGF5ZXJzLAogICAgZmV0Y2hfYXNoM2RfbGF5ZXJzLCBnZXRfZW5kcG9pbnRfbmFtZQopCmZyb20gLmV4cG9ydCBpbXBvcnQgZXhwb3J0X2xheWVycwpmcm9tIC5jYWNoZSBpbXBvcnQgZGV0ZWN0X25ld19vcl91cGRhdGVkX2xheWVycw",
+					"AQAAAAAAAAABAAAA7g0AAAAAAADpCwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					103,
+					4,
+					"left_delete",
+					null,
+					"BAAAAKkMAAAAAAAAqQwAAAAAAAAdAAAAIFVuY29tbWVudCBpZiB5b3UgdXNlIGNlcnRpZmmoDAAAAAAAAKgMAAAAAAAAAQAAACOnDAAAAAAAAKcMAAAAAAAAAQAAACCmDAAAAAAAAKYMAAAAAAAAAQAAACA",
+					"AQAAAAAAAAABAAAAxgwAAAAAAACpDAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"file": "dsca_data_explorer.sublime-project",
+			"settings":
+			{
+				"buffer_size": 1512,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					8,
+					1,
+					"paste",
+					null,
+					"AQAAAAAAAAAAAAAAGwUAAAAAAAAWAAAAewoJImZvbGRlcnMiOgoJWwoJXQp9Cg",
+					"AQAAAAAAAAABAAAAAAAAAAAAAAAWAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					10,
+					1,
+					"revert",
+					null,
+					"AgAAAAAAAAAAAAAAAAAAAAAAAAAbBQAAewogICAgImZvbGRlcnMiOgogICAgWwogICAgICAgIHsKICAgICAgICAgICAgInBhdGgiOiAiLiIsCiAgICAgICAgICAgICJmb2xkZXJfZXhjbHVkZV9wYXR0ZXJucyI6IFsKICAgICAgICAgICAgICAgICIuZ2l0IiwKICAgICAgICAgICAgICAgICJfX3B5Y2FjaGVfXyIsCiAgICAgICAgICAgICAgICAiLnZlbnYiLAogICAgICAgICAgICAgICAgImVudiIsCiAgICAgICAgICAgICAgICAidmVudiIsCiAgICAgICAgICAgICAgICAiYnVpbGQiLAogICAgICAgICAgICAgICAgImRpc3QiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJmaWxlX2V4Y2x1ZGVfcGF0dGVybnMiOiBbCiAgICAgICAgICAgICAgICAiKi5weWMiLAogICAgICAgICAgICAgICAgIioucHlvIiwKICAgICAgICAgICAgICAgICIqLmV4ZSIsCiAgICAgICAgICAgICAgICAiKi5kbGwiLAogICAgICAgICAgICAgICAgIioub2JqIiwKICAgICAgICAgICAgICAgICIqLm8iLAogICAgICAgICAgICAgICAgIiouYSIsCiAgICAgICAgICAgICAgICAiKi5saWIiLAogICAgICAgICAgICAgICAgIiouc28iLAogICAgICAgICAgICAgICAgIiouZHlsaWIiLAogICAgICAgICAgICAgICAgIioubmNiIiwKICAgICAgICAgICAgICAgICIqLnNkZiIsCiAgICAgICAgICAgICAgICAiKi5zdW8iLAogICAgICAgICAgICAgICAgIioucGRiIiwKICAgICAgICAgICAgICAgICIqLmlkYiIsCiAgICAgICAgICAgICAgICAiKi5jbGFzcyIsCiAgICAgICAgICAgICAgICAiKi5wc2QiLAogICAgICAgICAgICAgICAgIiouZGIiCiAgICAgICAgICAgIF0KICAgICAgICB9CiAgICBdLAogICAgImJ1aWxkX3N5c3RlbXMiOgogICAgWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAiUnVuIERTQ0EgRXhwbG9yZXIiLAogICAgICAgICAgICAiY21kIjogWyJweXRob24zIiwgIi11IiwgInJ1bl9leHBsb3Jlci5weSJdLAogICAgICAgICAgICAid29ya2luZ19kaXIiOiAiJHtwcm9qZWN0X3BhdGh9IiwKICAgICAgICAgICAgImZpbGVfcmVnZXgiOiAiXlsgXSpGaWxlIFwiKC4uLio/KVwiLCBsaW5lIChbMC05XSopIiwKICAgICAgICAgICAgInNlbGVjdG9yIjogInNvdXJjZS5weXRob24iCiAgICAgICAgfQogICAgXSwKICAgICJzZXR0aW5ncyI6CiAgICB7CiAgICAgICAgInRhYl9zaXplIjogNCwKICAgICAgICAidHJhbnNsYXRlX3RhYnNfdG9fc3BhY2VzIjogdHJ1ZSwKICAgICAgICAiZW5zdXJlX25ld2xpbmVfYXRfZW9mX29uX3NhdmUiOiB0cnVlLAogICAgICAgICJweXRob25faW50ZXJwcmV0ZXIiOiAiL3Vzci9sb2NhbC9iaW4vcHl0aG9uMyIKICAgIH0KfQoAAAAAAAAAAOgFAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAGwUAAAAAAAAbBQAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"install package ",
+				"Package Control: Install Package"
+			],
+			[
+				"sspy",
+				"Set Syntax: Python3"
+			],
+			[
+				"install panadas",
+				"Package Control: Advanced Install Package"
+			],
+			[
+				"install packag",
+				"Package Control: Install Package"
+			],
+			[
+				"set syntax: python",
+				"Set Syntax: Python"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 112.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers"
+	],
+	"file_history":
+	[
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/ash3d.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/gui.py",
+		"/Users/daltonn.ctr/Documents/gui.txt",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/cache.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/noaa.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/__init__.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/utils.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/usgs.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/nasa.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/hifld.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/fema.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/fetchers/epa.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/cli.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/export.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/config.py",
+		"/Users/daltonn.ctr/Downloads/response (1).json",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/dsca_explorer/__init__.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/setup.py",
+		"/Users/daltonn.ctr/Documents/dsca_data_explorer/LICENSE",
+		"/Users/daltonn.ctr/Downloads/DSCA Explorer.py",
+		"/Users/daltonn.ctr/Downloads/fema.py",
+		"/Users/daltonn.ctr/Downloads/generate_cert.sh",
+		"/Users/daltonn.ctr/Downloads/HIFLD.py",
+		"/Users/daltonn.ctr/undelete2.sh"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9612,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9373,
+								9373
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"auto_indent": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"git_gutter_is_enabled": false,
+							"gutter": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_width": 2,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3271.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "fetchers/__init__.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2487,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2487,
+								2487
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 405.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "gui.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22872,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3069,
+								3069
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+							},
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 767.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "dsca_data_explorer.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1512,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1307,
+								1307
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+							},
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/JSON/JSON.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"output.exec":
+	{
+		"height": 349.0,
+		"history":
+		[
+		]
+	},
+	"output.find_results":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"pinned_build_system": "Packages/Python 3/Python3.sublime-build",
+	"project": "dsca_data_explorer.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Downloads/HIFLD.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

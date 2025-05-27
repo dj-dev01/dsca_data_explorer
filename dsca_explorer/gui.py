@@ -1,20 +1,22 @@
 # dsca_explorer/gui.py
 
-import tkinter as tk
-from tkinter import ttk, filedialog, messagebox, scrolledtext
-import threading
-import webbrowser
 import concurrent.futures
 import json
+import threading
+import tkinter as tk
+import webbrowser
+from collections import defaultdict
+from pathlib import Path
+from tkinter import filedialog, messagebox, scrolledtext, ttk
 
-from .config import DOC_URLS
-from .fetchers import (
-    fetch_arcgis_layers_all, fetch_openfema_layers, fetch_hifld_layers,
-    fetch_noaa_layers, fetch_usgs_layers, fetch_epa_layers, fetch_nasa_layers,
-    get_endpoint_name
-)
-from .export import export_layers
 from .cache import detect_new_or_updated_layers
+from .config import DOC_URLS
+from .export import export_layers
+from .fetchers import (fetch_arcgis_layers_all, fetch_ash3d_layers,
+                       fetch_epa_layers, fetch_hifld_layers, fetch_nasa_layers,
+                       fetch_noaa_layers, fetch_openfema_layers,
+                       fetch_usgs_layers, get_endpoint_name)
+
 
 def run_gui():
     root = tk.Tk()
@@ -29,23 +31,22 @@ class DSCARestAPIExplorer:
         self.all_layers = []
         self.filtered_layers = []
         self.sort_reverse = False
-        self.source_counts = {
-            "FEMA": 0, "OpenFEMA": 0, "HIFLD": 0, "NOAA": 0, "USGS": 0, "EPA": 0, "NASA": 0
-        }
+        self.source_counts = {}
         self.create_widgets()
 
     def create_widgets(self):
         main_container = ttk.Frame(self.root, padding=10)
         main_container.pack(fill=tk.BOTH, expand=True)
 
-        self.counter_var = tk.StringVar(value="FEMA: 0 | OpenFEMA: 0 | HIFLD: 0 | NOAA: 0 | USGS: 0 | EPA: 0 | NASA: 0 | Total: 0")
+        # Counter: only shows sources after fetch
+        self.counter_var = tk.StringVar(value="No layers loaded yet!")
         counter_label = ttk.Label(main_container, textvariable=self.counter_var, font=("Arial", 11, "bold"))
         counter_label.pack(anchor=tk.W, pady=(0, 5))
 
         header_frame = ttk.Frame(main_container)
         header_frame.pack(fill=tk.X, pady=(0, 10))
         ttk.Label(header_frame, text="DSCA Data Explorer", font=("Arial", 14, "bold")).pack(anchor=tk.W)
-        ttk.Label(header_frame, text="Explore and export FEMA, HIFLD, OpenFEMA, NOAA, USGS, EPA, NASA REST API layers", font=("Arial", 10)).pack(anchor=tk.W)
+        ttk.Label(header_frame, text="A tool for exploring, viewing, and exporting DSCA geospatial layers.", font=("Arial", 10)).pack(anchor=tk.W)
 
         paned_window = ttk.PanedWindow(main_container, orient=tk.VERTICAL)
         paned_window.pack(fill=tk.BOTH, expand=True)
@@ -73,39 +74,33 @@ class DSCARestAPIExplorer:
         ttk.Button(button_frame, text="Select All", command=self.select_all).pack(side=tk.LEFT, padx=2)
         ttk.Button(button_frame, text="Clear", command=self.clear_selection).pack(side=tk.LEFT, padx=2)
         ttk.Button(button_frame, text="Export", command=self.export_selected).pack(side=tk.LEFT, padx=2)
+        ttk.Button(button_frame, text="Export Changes", command=self.export_changes).pack(side=tk.LEFT, padx=2)
 
         filter_frame = ttk.LabelFrame(top_frame, text="Filters", padding=5)
         filter_frame.pack(fill=tk.X, pady=5)
 
+        # Source filter
         ttk.Label(filter_frame, text="Source:").grid(row=0, column=0, padx=2, sticky=tk.W)
         self.endpoint_var = tk.StringVar(value="All")
-        self.endpoint_combo = ttk.Combobox(filter_frame, textvariable=self.endpoint_var, state="readonly")
+        self.endpoint_combo = ttk.Combobox(filter_frame, textvariable=self.endpoint_var, values=["All"], state="readonly")
         self.endpoint_combo.grid(row=0, column=1, padx=2, sticky=tk.EW)
-        self.endpoint_combo['values'] = [
-            "All"
-        ] + [get_endpoint_name(url) for url in [
-            "https://gis.fema.gov/arcgis/rest/services/FEMA",
-            "https://hazards.fema.gov/arcgis/rest/services",
-            "https://hazards.fema.gov/arcgis/rest/services/public/NFHL"
-        ]] + [
-            "OpenFEMA", "HIFLD", "NOAA", "USGS", "EPA", "NASA"
-        ]
         self.endpoint_combo.bind("<<ComboboxSelected>>", lambda e: self.apply_filters())
 
+        # Format filter
         ttk.Label(filter_frame, text="Format:").grid(row=0, column=2, padx=2, sticky=tk.W)
         self.format_var = tk.StringVar(value="All")
-        format_combo = ttk.Combobox(filter_frame, textvariable=self.format_var, 
-                                  values=["All", "JSON", "CSV", "XLSX", "TXT", "DOCX", "PDF", "GeoJSON", "Parquet"], state="readonly")
-        format_combo.grid(row=0, column=3, padx=2, sticky=tk.EW)
-        format_combo.bind("<<ComboboxSelected>>", lambda e: self.apply_filters())
+        self.format_combo = ttk.Combobox(filter_frame, textvariable=self.format_var, values=["All"], state="readonly")
+        self.format_combo.grid(row=0, column=3, padx=2, sticky=tk.EW)
+        self.format_combo.bind("<<ComboboxSelected>>", lambda e: self.apply_filters())
 
+        # Type filter
         ttk.Label(filter_frame, text="Type:").grid(row=0, column=4, padx=2, sticky=tk.W)
         self.type_var = tk.StringVar(value="All")
-        type_combo = ttk.Combobox(filter_frame, textvariable=self.type_var,
-                                values=["All", "MapServer", "FeatureServer", "OpenFEMA", "HIFLD", "NOAA Alert", "NOAA Station", "NOAA Radar", "NOAA Tides", "USGS Earthquake", "USGS Water Site", "USGS Elevated Volcano", "USGS CAP Alert", "USGS Monitored Volcano", "USGS Notice", "USGS VONA", "USGS GeoJSON Volcano", "EPA Water System", "NASA Earthdata"], state="readonly")
-        type_combo.grid(row=0, column=5, padx=2, sticky=tk.EW)
-        type_combo.bind("<<ComboboxSelected>>", lambda e: self.apply_filters())
+        self.type_combo = ttk.Combobox(filter_frame, textvariable=self.type_var, values=["All"], state="readonly")
+        self.type_combo.grid(row=0, column=5, padx=2, sticky=tk.EW)
+        self.type_combo.bind("<<ComboboxSelected>>", lambda e: self.apply_filters())
 
+        # Search filter
         ttk.Label(filter_frame, text="Search:").grid(row=1, column=0, padx=2, sticky=tk.W)
         self.search_var = tk.StringVar()
         search_entry = ttk.Entry(filter_frame, textvariable=self.search_var)
@@ -146,6 +141,26 @@ class DSCARestAPIExplorer:
         self.context_menu.add_command(label="Copy Cell", command=self.copy_cell)
         self.context_menu.add_command(label="Copy Row", command=self.copy_row)
 
+    def export_changes(self):
+        if not hasattr(self, "last_changes") or not self.last_changes:
+            messagebox.showinfo("Export Changes", "No changes to export. Please fetch layers first.")
+            return
+
+        formats = [("CSV", "*.csv"), ("Excel", "*.xlsx"), ("JSON", "*.json"), ("Text", "*.txt"), ("Word", "*.docx"), ("PDF", "*.pdf")]
+        filetypes = formats
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=filetypes)
+        if not file_path:
+            return
+
+        try:
+            from .export import export_changes as export_changes_func
+            fmt = file_path.split('.')[-1].lower()
+            export_changes_func(self.last_changes, fmt, Path(file_path))  # <-- convert to Path
+            messagebox.showinfo("Export Changes", f"Exported {len(self.last_changes)} changes to {file_path}")
+        except Exception as e:
+            messagebox.showerror("Export Error", str(e))
+
+
     def select_all(self):
     # Only select leaf nodes (not group nodes)
         if not hasattr(self, "group_nodes"):
@@ -164,6 +179,8 @@ class DSCARestAPIExplorer:
         self.progress_label.set("Fetching all sources in parallel...")
         threading.Thread(target=self._multifetch_layers_thread, daemon=True).start()
 
+    from collections import defaultdict
+
     def _multifetch_layers_thread(self):
         fetch_funcs = [
             fetch_arcgis_layers_all,
@@ -173,47 +190,100 @@ class DSCARestAPIExplorer:
             fetch_usgs_layers,
             fetch_epa_layers,
             fetch_nasa_layers,
+            fetch_ash3d_layers,
         ]
         layers = []
-        source_counts = {k: 0 for k in self.source_counts}
+        # Fetch all layers in parallel
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(fetch_funcs)) as executor:
             futures = [executor.submit(f) for f in fetch_funcs]
             for future in concurrent.futures.as_completed(futures):
                 result = future.result()
-                if isinstance(result, dict):  # For arcgis, which returns {'layers':..., 'count':...}
+                if isinstance(result, dict):
                     layers.extend(result['layers'])
-                    source_counts['FEMA'] = result.get('count', 0)
                 elif isinstance(result, list):
                     layers.extend(result)
-        for src in ["OpenFEMA", "HIFLD", "NOAA", "USGS", "EPA", "NASA"]:
-            source_counts[src] = len([l for l in layers if l.get("source") == src])
-        new_layers, updated_layers = detect_new_or_updated_layers(layers)
+        # Build dynamic source counts
+        source_counts = {}
+        for layer in layers:
+            src = layer.get("source", "Unknown")
+            source_counts[src] = source_counts.get(src, 0) + 1
         self.all_layers = layers
         self.source_counts = source_counts
         self.root.after(0, self._update_ui_after_fetch)
-        if new_layers or updated_layers:
-            msg = ""
-            if new_layers:
-                msg += f"New layers detected: {len(new_layers)}\n"
-                msg += "\n".join(f"- {l['name']} ({l['source']})" for l in new_layers[:10])
-                if len(new_layers) > 10:
-                    msg += f"\n...and {len(new_layers)-10} more."
-            if updated_layers:
-                msg += f"\n\nUpdated layers detected: {len(updated_layers)}\n"
-                msg += "\n".join(f"- {l['name']} ({l['source']})" for l in updated_layers[:10])
-                if len(updated_layers) > 10:
-                    msg += f"\n...and {len(updated_layers)-10} more."
-            self.root.after(0, lambda: messagebox.showinfo("New/Updated Layers", msg))
+
+        # Detect changes and group by source
+        changes = detect_new_or_updated_layers(layers)
+        changes_by_source = defaultdict(list)
+        for c in changes:
+            changes_by_source[c.source].append(c)
+            self.last_changes = changes
+
+        # Build summary message (counts only)
+        msg = ""
+        for source, source_changes in changes_by_source.items():
+            new = sum(1 for c in source_changes if c.change_type == "NEW")
+            updated = sum(1 for c in source_changes if c.change_type == "UPDATED")
+            if new or updated:
+                msg += f"{source}: "
+                if new:
+                    msg += f"{new} new"
+                if new and updated:
+                    msg += ", "
+                if updated:
+                    msg += f"{updated} updated"
+                msg += "\n"
+
+        msg += (
+            "\nRemember, this is thrown together by a non-nerd! If a real nerd wants to take over, "
+            "please let me add them as contributor on Github. Also, D.J. loves you! ❤️"
+        )
+
+        if msg.strip() and changes:
+            self.root.after(0, lambda: messagebox.showinfo("Change Summary", msg))
+
+    def update_filter_options(self):
+        sources = set()
+        formats = set()
+        types = set()
+        for layer in self.all_layers:
+            sources.add(layer.get("source", ""))
+            fmt = layer.get("formats", "")
+            if isinstance(fmt, str):
+                for f in fmt.split(","):
+                    formats.add(f.strip())
+            elif isinstance(fmt, list):
+                for f in fmt:
+                    formats.add(str(f).strip())
+            types.add(layer.get("type", ""))
+
+        source_values = ["All"] + sorted(s for s in sources if s)
+        format_values = ["All"] + sorted(f for f in formats if f)
+        type_values = ["All"] + sorted(t for t in types if t)
+
+        self.endpoint_combo['values'] = source_values
+        self.format_combo['values'] = format_values
+        self.type_combo['values'] = type_values
+
+        # Optionally reset to "All" after updating
+        self.endpoint_var.set("All")
+        self.format_var.set("All")
+        self.type_var.set("All")
 
     def _update_ui_after_fetch(self):
         total = sum(self.source_counts.values())
-        self.counter_var.set(
-            f"FEMA: {self.source_counts['FEMA']} | OpenFEMA: {self.source_counts['OpenFEMA']} | HIFLD: {self.source_counts['HIFLD']} | NOAA: {self.source_counts['NOAA']} | USGS: {self.source_counts['USGS']} | EPA: {self.source_counts['EPA']} | NASA: {self.source_counts['NASA']} | Total: {total}"
-        )
+        if total == 0:
+            self.counter_var.set("No layers loaded yet!")
+        else:
+            counts_str = " | ".join(
+                f"{src}: {count}" for src, count in self.source_counts.items() if count > 0
+            )
+            self.counter_var.set(f"{counts_str} | Total: {total}")
         self.progress.stop()
         self.status_var.set(f"Found {total} layers")
         self.progress_label.set("")
+        self.update_filter_options()  # Update filter dropdowns to match loaded layers
         self.apply_filters()
+
 
     def apply_filters(self):
         endpoint = self.endpoint_var.get()
