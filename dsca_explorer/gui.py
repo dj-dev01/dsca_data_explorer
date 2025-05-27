@@ -1,5 +1,3 @@
-# dsca_explorer/gui.py
-
 import concurrent.futures
 import json
 import threading
@@ -32,13 +30,13 @@ class DSCARestAPIExplorer:
         self.filtered_layers = []
         self.sort_reverse = False
         self.source_counts = {}
+        self.last_changes = []
         self.create_widgets()
 
     def create_widgets(self):
         main_container = ttk.Frame(self.root, padding=10)
         main_container.pack(fill=tk.BOTH, expand=True)
 
-        # Counter: only shows sources after fetch
         self.counter_var = tk.StringVar(value="No layers loaded yet!")
         counter_label = ttk.Label(main_container, textvariable=self.counter_var, font=("Arial", 11, "bold"))
         counter_label.pack(anchor=tk.W, pady=(0, 5))
@@ -63,7 +61,7 @@ class DSCARestAPIExplorer:
         status_frame.pack(side=tk.LEFT, fill=tk.X, expand=True)
         self.status_var = tk.StringVar(value="Ready")
         ttk.Label(status_frame, textvariable=self.status_var).pack(side=tk.LEFT)
-        self.progress = ttk.Progressbar(status_frame, orient=tk.HORIZONTAL, mode="indeterminate")
+        self.progress = ttk.Progressbar(status_frame, orient=tk.HORIZONTAL, mode="determinate", maximum=100)
         self.progress.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=10)
         self.progress_label = tk.StringVar(value="")
         ttk.Label(status_frame, textvariable=self.progress_label, font=("Arial", 9)).pack(side=tk.LEFT, padx=5)
@@ -84,21 +82,21 @@ class DSCARestAPIExplorer:
         self.endpoint_var = tk.StringVar(value="All")
         self.endpoint_combo = ttk.Combobox(filter_frame, textvariable=self.endpoint_var, values=["All"], state="readonly")
         self.endpoint_combo.grid(row=0, column=1, padx=2, sticky=tk.EW)
-        self.endpoint_combo.bind("<<ComboboxSelected>>", lambda e: self.apply_filters())
+        self.endpoint_combo.bind("<<ComboboxSelected>>", lambda e: self.update_filter_options())
 
         # Format filter
         ttk.Label(filter_frame, text="Format:").grid(row=0, column=2, padx=2, sticky=tk.W)
         self.format_var = tk.StringVar(value="All")
         self.format_combo = ttk.Combobox(filter_frame, textvariable=self.format_var, values=["All"], state="readonly")
         self.format_combo.grid(row=0, column=3, padx=2, sticky=tk.EW)
-        self.format_combo.bind("<<ComboboxSelected>>", lambda e: self.apply_filters())
+        self.format_combo.bind("<<ComboboxSelected>>", lambda e: self.update_filter_options())
 
         # Type filter
         ttk.Label(filter_frame, text="Type:").grid(row=0, column=4, padx=2, sticky=tk.W)
         self.type_var = tk.StringVar(value="All")
         self.type_combo = ttk.Combobox(filter_frame, textvariable=self.type_var, values=["All"], state="readonly")
         self.type_combo.grid(row=0, column=5, padx=2, sticky=tk.EW)
-        self.type_combo.bind("<<ComboboxSelected>>", lambda e: self.apply_filters())
+        self.type_combo.bind("<<ComboboxSelected>>", lambda e: self.update_filter_options())
 
         # Search filter
         ttk.Label(filter_frame, text="Search:").grid(row=1, column=0, padx=2, sticky=tk.W)
@@ -141,28 +139,61 @@ class DSCARestAPIExplorer:
         self.context_menu.add_command(label="Copy Cell", command=self.copy_cell)
         self.context_menu.add_command(label="Copy Row", command=self.copy_row)
 
-    def export_changes(self):
-        if not hasattr(self, "last_changes") or not self.last_changes:
-            messagebox.showinfo("Export Changes", "No changes to export. Please fetch layers first.")
-            return
+    def update_filter_options(self):
+        selected_source = self.endpoint_var.get()
+        selected_format = self.format_var.get()
+        selected_type = self.type_var.get()
 
-        formats = [("CSV", "*.csv"), ("Excel", "*.xlsx"), ("JSON", "*.json"), ("Text", "*.txt"), ("Word", "*.docx"), ("PDF", "*.pdf")]
-        filetypes = formats
-        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=filetypes)
-        if not file_path:
-            return
+        # Source options: all sources present in layers matching current format and type
+        source_layers = self.all_layers
+        if selected_format != "All":
+            source_layers = [l for l in source_layers if selected_format in l.get("formats", "")]
+        if selected_type != "All":
+            source_layers = [l for l in source_layers if l.get("type") == selected_type]
+        sources = set(l.get("source", "") for l in source_layers if l.get("source", ""))
+        source_values = ["All"] + sorted(sources)
 
-        try:
-            from .export import export_changes as export_changes_func
-            fmt = file_path.split('.')[-1].lower()
-            export_changes_func(self.last_changes, fmt, Path(file_path))  # <-- convert to Path
-            messagebox.showinfo("Export Changes", f"Exported {len(self.last_changes)} changes to {file_path}")
-        except Exception as e:
-            messagebox.showerror("Export Error", str(e))
+        # Format options: all formats present in layers matching current source and type
+        format_layers = self.all_layers
+        if selected_source != "All":
+            format_layers = [l for l in format_layers if l.get("source") == selected_source]
+        if selected_type != "All":
+            format_layers = [l for l in format_layers if l.get("type") == selected_type]
+        formats = set()
+        for l in format_layers:
+            fmt = l.get("formats", "")
+            if isinstance(fmt, str):
+                for f in fmt.split(","):
+                    formats.add(f.strip())
+            elif isinstance(fmt, list):
+                for f in fmt:
+                    formats.add(str(f).strip())
+        format_values = ["All"] + sorted(f for f in formats if f)
 
+        # Type options: all types present in layers matching current source and format
+        type_layers = self.all_layers
+        if selected_source != "All":
+            type_layers = [l for l in type_layers if l.get("source") == selected_source]
+        if selected_format != "All":
+            type_layers = [l for l in type_layers if selected_format in l.get("formats", "")]
+        types = set(l.get("type", "") for l in type_layers if l.get("type", ""))
+        type_values = ["All"] + sorted(types)
+
+        self.endpoint_combo['values'] = source_values
+        self.format_combo['values'] = format_values
+        self.type_combo['values'] = type_values
+
+        # Reset selection if current value is not in the new list
+        if self.endpoint_var.get() not in source_values:
+            self.endpoint_var.set("All")
+        if self.format_var.get() not in format_values:
+            self.format_var.set("All")
+        if self.type_var.get() not in type_values:
+            self.type_var.set("All")
+
+        self.apply_filters()
 
     def select_all(self):
-    # Only select leaf nodes (not group nodes)
         if not hasattr(self, "group_nodes"):
             return
         for group_id in self.group_nodes.values():
@@ -173,13 +204,11 @@ class DSCARestAPIExplorer:
         self.tree.selection_remove(self.tree.get_children())
 
     def fetch_layers(self):
-        self.status_var.set("Fetching layers...")
-        self.progress["mode"] = "indeterminate"
-        self.progress.start()
+        self.status_var.set("0%")
+        self.progress["mode"] = "determinate"
+        self.progress["value"] = 0
         self.progress_label.set("Fetching all sources in parallel...")
         threading.Thread(target=self._multifetch_layers_thread, daemon=True).start()
-
-    from collections import defaultdict
 
     def _multifetch_layers_thread(self):
         fetch_funcs = [
@@ -193,15 +222,27 @@ class DSCARestAPIExplorer:
             fetch_ash3d_layers,
         ]
         layers = []
-        # Fetch all layers in parallel
-        with concurrent.futures.ThreadPoolExecutor(max_workers=len(fetch_funcs)) as executor:
-            futures = [executor.submit(f) for f in fetch_funcs]
+        total_fetchers = len(fetch_funcs)
+        completed_fetchers = 0
+
+        def progress_cb(percent, message):
+            # This callback can be called by fetchers, but we update only on fetcher completion below
+            pass
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=total_fetchers) as executor:
+            futures = [executor.submit(f, progress_cb) for f in fetch_funcs]
             for future in concurrent.futures.as_completed(futures):
                 result = future.result()
+                completed_fetchers += 1
                 if isinstance(result, dict):
                     layers.extend(result['layers'])
                 elif isinstance(result, list):
                     layers.extend(result)
+                percent = int((completed_fetchers / total_fetchers) * 100)
+                self.root.after(0, lambda p=percent: self.status_var.set(f"{p}%"))
+                self.root.after(0, lambda p=percent: self.progress.config(value=p))
+                self.root.after(0, lambda c=completed_fetchers, t=total_fetchers: self.progress_label.set(f"Fetched {c}/{t} sources..."))
+
         # Build dynamic source counts
         source_counts = {}
         for layer in layers:
@@ -213,10 +254,28 @@ class DSCARestAPIExplorer:
 
         # Detect changes and group by source
         changes = detect_new_or_updated_layers(layers)
+        self.last_changes = changes
+
+        # Build a map from layer_id to change type
+        change_map = {}
+        for c in changes:
+            change_map[c.layer_id] = c.change_type
+
+        # Mark display_name for each layer (for treeview)
+        for layer in layers:
+            key = f"{layer.get('source','')}|{layer.get('endpoint','')}|{layer.get('name','')}"
+            change_type = change_map.get(key)
+            if change_type == "NEW":
+                layer["display_name"] = f"[NEW] {layer['name']}"
+            elif change_type == "UPDATED":
+                layer["display_name"] = f"[UPDATED] {layer['name']}"
+            else:
+                layer["display_name"] = layer["name"]
+
+        # Group changes by source for summary popup
         changes_by_source = defaultdict(list)
         for c in changes:
             changes_by_source[c.source].append(c)
-            self.last_changes = changes
 
         # Build summary message (counts only)
         msg = ""
@@ -241,49 +300,21 @@ class DSCARestAPIExplorer:
         if msg.strip() and changes:
             self.root.after(0, lambda: messagebox.showinfo("Change Summary", msg))
 
-    def update_filter_options(self):
-        sources = set()
-        formats = set()
-        types = set()
-        for layer in self.all_layers:
-            sources.add(layer.get("source", ""))
-            fmt = layer.get("formats", "")
-            if isinstance(fmt, str):
-                for f in fmt.split(","):
-                    formats.add(f.strip())
-            elif isinstance(fmt, list):
-                for f in fmt:
-                    formats.add(str(f).strip())
-            types.add(layer.get("type", ""))
-
-        source_values = ["All"] + sorted(s for s in sources if s)
-        format_values = ["All"] + sorted(f for f in formats if f)
-        type_values = ["All"] + sorted(t for t in types if t)
-
-        self.endpoint_combo['values'] = source_values
-        self.format_combo['values'] = format_values
-        self.type_combo['values'] = type_values
-
-        # Optionally reset to "All" after updating
-        self.endpoint_var.set("All")
-        self.format_var.set("All")
-        self.type_var.set("All")
-
     def _update_ui_after_fetch(self):
         total = sum(self.source_counts.values())
         if total == 0:
             self.counter_var.set("No layers loaded yet!")
         else:
             counts_str = " | ".join(
-                f"{src}: {count}" for src, count in self.source_counts.items() if count > 0
+                f"{src}: {count}" for src, count in sorted(self.source_counts.items()) if count > 0
             )
             self.counter_var.set(f"{counts_str} | Total: {total}")
         self.progress.stop()
+        self.progress["value"] = 100
         self.status_var.set(f"Found {total} layers")
         self.progress_label.set("")
-        self.update_filter_options()  # Update filter dropdowns to match loaded layers
+        self.update_filter_options()
         self.apply_filters()
-
 
     def apply_filters(self):
         endpoint = self.endpoint_var.get()
@@ -292,26 +323,13 @@ class DSCARestAPIExplorer:
         search = self.search_var.get().lower()
         self.filtered_layers = []
         for layer in self.all_layers:
-            if endpoint != "All":
-                if endpoint == "OpenFEMA" and layer["type"] != "OpenFEMA":
-                    continue
-                elif endpoint == "HIFLD" and layer["type"] != "HIFLD":
-                    continue
-                elif endpoint == "NOAA" and not layer["type"].startswith("NOAA"):
-                    continue
-                elif endpoint == "USGS" and not layer["type"].startswith("USGS"):
-                    continue
-                elif endpoint == "EPA" and not layer["type"].startswith("EPA"):
-                    continue
-                elif endpoint == "NASA" and not layer["type"].startswith("NASA"):
-                    continue
-                elif endpoint not in ["OpenFEMA", "HIFLD", "NOAA", "USGS", "EPA", "NASA"] and endpoint not in get_endpoint_name(str(layer["endpoint"])):
-                    continue
-            if fmt != "All" and fmt not in layer["formats"]:
+            if endpoint != "All" and layer.get("source") != endpoint:
                 continue
-            if typ != "All" and typ != layer["type"]:
+            if fmt != "All" and fmt not in layer.get("formats", ""):
                 continue
-            if search and search not in layer["name"].lower():
+            if typ != "All" and typ != layer.get("type", ""):
+                continue
+            if search and search not in layer.get("name", "").lower():
                 continue
             self.filtered_layers.append(layer)
         self._populate_tree()
@@ -329,10 +347,17 @@ class DSCARestAPIExplorer:
             group_label = f"{group} ({len(groups[group])})"
             group_id = self.tree.insert("", tk.END, text=group_label, values=("", "", "", ""))
             self.group_nodes[group] = group_id
-            for layer in sorted(groups[group], key=lambda l: l["name"].lower()):
-                self.tree.insert(group_id, tk.END, values=(
-                    layer["name"], layer["type"], layer["endpoint"], layer["formats"]
-                ))
+            for layer in sorted(groups[group], key=lambda l: l.get("name", "").lower()):
+                self.tree.insert(
+                    group_id,
+                    tk.END,
+                    values=(
+                        layer.get("display_name", layer.get("name", "")),
+                        layer.get("type", ""),
+                        layer.get("endpoint", ""),
+                        layer.get("formats", "")
+                    )
+                )
 
     def show_layer_details(self, event=None):
         selected = self.tree.selection()
@@ -344,7 +369,7 @@ class DSCARestAPIExplorer:
         if not values or not values[0]:
             self.details_text.delete(1.0, tk.END)
             return
-        layer = next((l for l in self.filtered_layers if l["name"] == values[0] and l["endpoint"] == values[2]), None)
+        layer = next((l for l in self.filtered_layers if l.get("display_name", l["name"]) == values[0] and l["endpoint"] == values[2]), None)
         if not layer:
             self.details_text.delete(1.0, tk.END)
             return
@@ -378,11 +403,20 @@ class DSCARestAPIExplorer:
         for sel in selected:
             item = self.tree.item(sel)
             values = item["values"]
+            # If this is a group node (category), export all its children
             if not values or not values[0]:
-                continue
-            layer = next((l for l in self.filtered_layers if l["name"] == values[0] and l["endpoint"] == values[2]), None)
-            if layer:
-                layers.append(layer)
+                for child in self.tree.get_children(sel):
+                    child_item = self.tree.item(child)
+                    child_values = child_item["values"]
+                    if not child_values or not child_values[0]:
+                        continue
+                    layer = next((l for l in self.filtered_layers if l.get("display_name", l["name"]) == child_values[0] and l["endpoint"] == child_values[2]), None)
+                    if layer:
+                        layers.append(layer)
+            else:
+                layer = next((l for l in self.filtered_layers if l.get("display_name", l["name"]) == values[0] and l["endpoint"] == values[2]), None)
+                if layer:
+                    layers.append(layer)
         if not layers:
             messagebox.showinfo("Export", "No layers selected.")
             return
@@ -396,6 +430,25 @@ class DSCARestAPIExplorer:
         try:
             export_layers(layers, file_path)
             messagebox.showinfo("Export", f"Exported {len(layers)} layers to {file_path}")
+        except Exception as e:
+            messagebox.showerror("Export Error", str(e))
+
+    def export_changes(self):
+        if not hasattr(self, "last_changes") or not self.last_changes:
+            messagebox.showinfo("Export Changes", "No changes to export. Please fetch layers first.")
+            return
+
+        formats = [("CSV", "*.csv"), ("Excel", "*.xlsx"), ("JSON", "*.json"), ("Text", "*.txt"), ("Word", "*.docx"), ("PDF", "*.pdf")]
+        filetypes = formats
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=filetypes)
+        if not file_path:
+            return
+
+        try:
+            from .export import export_changes as export_changes_func
+            fmt = file_path.split('.')[-1].lower()
+            export_changes_func(self.last_changes, fmt, Path(file_path))
+            messagebox.showinfo("Export Changes", f"Exported {len(self.last_changes)} changes to {file_path}")
         except Exception as e:
             messagebox.showerror("Export Error", str(e))
 

@@ -8,11 +8,13 @@ NEW:
 - Added fetch_ash3d_layers to pull latest USGS ASH3D volcano ashfall projections.
 - Fetches recent public ASH3D runs and retrieves GeoJSON ashfall data for each.
 - Returns layers compatible with the DSCA Explorer system.
+- Ensures 'source' is 'USGS' and 'type' is 'ASH3D' for proper filtering.
 
 ================================================================================
 """
 
 import requests
+
 
 def fetch_ash3d_layers(progress_cb=None, limit=5):
     """
@@ -43,7 +45,7 @@ def fetch_ash3d_layers(progress_cb=None, limit=5):
                 geojson = geojson_resp.json()
                 layers.append({
                     "name": f"ASH3D {volcano} {eruption_time}",
-                    "type": "ASH3D Ashfall Projection",
+                    "type": "ASH3D",  
                     "endpoint": geojson_url,
                     "formats": "GeoJSON",
                     "properties": geojson,

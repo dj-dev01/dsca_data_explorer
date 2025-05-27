@@ -1,86 +1,97 @@
 # DSCA Data Explorer
 
-**DSCA Data Explorer** is a powerful, open-source Python application for discovering, monitoring, and exporting geospatial and environmental datasets from major U.S. government sources.  
-It is designed for DSCA (Defense Support of Civil Authorities), emergency management, and research workflows.
+A modern Python tool for ingesting, viewing, and exporting geospatial layers from FEMA, USGS, NASA, EPA, HIFLD, ASH3D, and more.  
+Features parallel fetching, robust change detection, dynamic GUI filtering, and multi-format export.
 
-- **Parallel multi-source fetch:** Pulls from FEMA, HIFLD, OpenFEMA, NOAA, USGS, EPA, and NASA at once.
-- **Change detection:** Notifies you of new or updated layers since your last run.
-- **Modern GUI:** Filter, search, and export with ease.
-- **Export:** CSV, XLSX, JSON, TXT, DOCX, PDF.
-
-**Ideal for:**  
-- Emergency managers  
-- GIS professionals  
-- Researchers  
-- Developers integrating federal data into their own tools
-=======
-A comprehensive, open-source Python GUI for discovering, monitoring, and exporting geospatial and environmental datasets from FEMA, HIFLD, OpenFEMA, NOAA, USGS, EPA, and NASA APIs.
+---
 
 ## Features
 
-- **Parallel multi-source fetch:** All sources are fetched at once for speed.
-- **Layer change detection:** Notifies you of new or updated layers since your last run.
-- **Powerful filtering:** By source, type, format, and search.
-- **Export:** CSV, XLSX, JSON, TXT, DOCX, PDF.
-- **Layer details:** View all properties, documentation links, and direct endpoints.
-- **Copy/cell/row context menu:** For easy copy-paste.
-- **Modern Tkinter GUI:** Responsive, with progress bar and counters.
+- **Parallel fetching** of all supported sources for fast data updates
+- **Change detection** with field-level diffing and audit trail
+- **Dynamic GUI** with source/format/type filters that update based on loaded data
+- **Grouped change summary** popup per source
+- **Export changes** or all layers in CSV, Excel, JSON, TXT, DOCX, or PDF
+- **ASH3D volcano ashfall projections** integration
+- **Modern, maintainable codebase** with clear separation of fetchers, cache, export, and GUI
 
-## Supported Sources
+---
 
-- FEMA ArcGIS REST
-- OpenFEMA
-- HIFLD ArcGIS REST
-- NOAA (alerts, stations, radar, tides)
-- USGS (earthquakes, water, volcanoes/ashfall)
-- EPA Envirofacts
-- NASA Earthdata
+## File Structure
+```
+dsca_data_explorer/
+├── dsca_explorer/
+│   ├── __init__.py
+│   ├── gui.py
+│   ├── cache.py
+│   ├── export.py
+│   ├── config.py
+│   ├── fetchers/
+│   │   ├── __init__.py
+│   │   ├── arcgis.py
+│   │   ├── epa.py
+│   │   ├── fema.py
+│   │   ├── hifld.py
+│   │   ├── nasa.py
+│   │   ├── noaa.py
+│   │   ├── usgs.py
+│   │   ├── ash3d.py
+│   │   └── utils.py
+│   └── ...
+├── run_explorer.py
+├── requirements.txt
+├── README.md
+└── CHANGELOG.md
+```
+
+---
 
 ## Installation
 
 1. **Clone the repo:**
-    ```bash
-    git clone https://github.com/yourusername/dsca-data-explorer.git
-    cd dsca-data-explorer
+    ```sh
+    git clone https://github.com/dj-dev01/dsca_data_explorer.git
+    cd dsca_data_explorer
     ```
 
 2. **Install dependencies:**
-    ```bash
+    ```sh
     pip install -r requirements.txt
     ```
 
-3. **Run the app:**
-    ```bash
-    python run_explorer.py
+3. *(Optional but recommended)*  
+   Set up a virtual environment:
+    ```sh
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
     ```
+
+---
 
 ## Usage
 
-- Click **Fetch Layers** to pull all sources in parallel.
-- Filter by source, type, format, or search.
-- Select layers and click **Export** to save as CSV, XLSX, JSON, TXT, DOCX, or PDF.
-- On each fetch, you'll be notified of any new or updated layers since your last run.
+### GUI
 
-## File Structure
+```sh
+python run_explorer.py
+```
 
-dsca-data-explorer/
-├── dsca_explorer/
-│   ├── gui.py
-│   ├── fetchers/
-│   ├── export.py
-│   ├── cache.py
-│   ├── config.py
-│   └── ...
-├── requirements.txt
-├── README.md
-├── LICENSE
-├── run_explorer.py
-└── dsca_layer_cache.json    # (auto-generated) cache for change detection
+The GUI will open. Click "Fetch Layers" to load data.
+Use the filters to explore.
+Use "Export" or "Export Changes" to save data.
+
+
+## To-Do
+- Nested/cross-referenced filtering (e.g., selecting a source updates available formats/types)
+- Fix and modernize volcano API integration
+- Additional UI improvements and responsiveness
 
 ## License
-
 MIT License
 
-## Acknowledgments
+## Contributors
+Just D.J. for now!
 
-- FEMA, HIFLD, NOAA, USGS, EPA, NASA for open APIs and data.
+## Acknowledgments
+FEMA, USGS, NASA, EPA, HIFLD, and the open-source geospatial community.
