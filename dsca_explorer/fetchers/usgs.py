@@ -1,50 +1,30 @@
-"""
-================================================================================
-DSCA Explorer USGS Fetcher - Change Log
-================================================================================
-
-BEFORE:
--------
-- fetch_usgs_layers fetched Earthquakes, Water, Elevated Volcanoes, CAP Alerts,
-  Monitored Volcanoes, and GeoJSON Volcanoes sequentially.
-- Each data type was processed one after another, resulting in slow performance.
-- No parallelization for per-type fetching.
-
-AFTER:
-------
-- fetch_usgs_layers now fetches all six USGS data types in parallel using
-  ThreadPoolExecutor and get_optimal_workers() from utils.py.
-- Each data type is processed concurrently, greatly improving speed.
-- Progress callback is updated as each data type finishes.
-- Error handling for individual data types is improved.
-- Overall scalability and speed are significantly improved.
-
-================================================================================
-"""
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from ..config import (
-    USGS_HANS_BASE,
-    USGS_EQ_BASE,
-    USGS_WATER_BASE,
-    HIFLD_HEADERS
-)
-from .utils import get_optimal_workers
+
 
 def fetch_usgs_layers(progress_cb=None):
+    """
+    Fetches USGS layers: earthquakes, water data, and volcanoes (all, monitored, elevated, CAP-elevated).
+    Returns a list of layer dictionaries.
+    """
     layers = []
     errors = []
     data_types = [
         "earthquakes",
         "water",
-        "elevated_volcanoes",
-        "cap_alerts",
+        "us_volcanoes",
         "monitored_volcanoes",
-        "geojson_volcanoes"
+        "elevated_volcanoes",
+        "cap_elevated_volcanoes"
     ]
     total = len(data_types)
-    max_workers = min(get_optimal_workers(), total)
+    max_workers = min(6, total)
+
+    # Endpoints
+    USGS_EQ_BASE = "https://earthquake.usgs.gov/fdsnws/event/1/query"
+    USGS_WATER_BASE = "https://waterservices.usgs.gov/nwis/iv/"
+    USGS_VOLCANOES_BASE = "https://volcanoes.usgs.gov/hans-public/api/volcano"
 
     def fetch_earthquakes():
         result = []
@@ -57,15 +37,15 @@ def fetch_usgs_layers(progress_cb=None):
                 props = feat.get("properties", {})
                 name = props.get("place") or "USGS Earthquake"
                 desc = f"M{props.get('mag','')} - {props.get('place','')}"
-                url = props.get("url") or ""
+                eq_url = props.get("url") or ""
                 result.append({
                     "name": name,
                     "type": "USGS Earthquake",
-                    "endpoint": url,
+                    "endpoint": eq_url,
                     "formats": "GeoJSON",
                     "properties": props,
                     "description": desc,
-                    "url": url,
+                    "url": eq_url,
                     "series": "Earthquakes",
                     "source": "USGS"
                 })
@@ -85,15 +65,15 @@ def fetch_usgs_layers(progress_cb=None):
                 props = ts.get("sourceInfo", {})
                 name = props.get("siteName") or "USGS Water Site"
                 desc = props.get("siteCode", [{}])[0].get("value", "")
-                url = f"https://waterdata.usgs.gov/nwis/uv?site_no={desc}"
+                site_url = f"https://waterdata.usgs.gov/nwis/uv?site_no={desc}"
                 result.append({
                     "name": name,
                     "type": "USGS Water Site",
-                    "endpoint": url,
+                    "endpoint": site_url,
                     "formats": "JSON",
                     "properties": props,
                     "description": desc,
-                    "url": url,
+                    "url": site_url,
                     "series": "Water Data",
                     "source": "USGS"
                 })
@@ -102,76 +82,60 @@ def fetch_usgs_layers(progress_cb=None):
             print(f"Error fetching USGS water data: {e}")
         return result
 
-    def fetch_elevated_volcanoes():
+    def fetch_us_volcanoes():
         result = []
         try:
-            resp = requests.get(f"{USGS_HANS_BASE}/volcano/getElevatedVolcanoes", headers=HIFLD_HEADERS, timeout=15)
+            url = f"{USGS_VOLCANOES_BASE}/getUSVolcanoes"
+            resp = requests.get(url, timeout=15)
             resp.raise_for_status()
             data = resp.json()
-            for v in data:
-                name = v.get("volcanoName") or v.get("volcCode") or "USGS Volcano"
-                desc = f"Alert: {v.get('currentColorCode','')}, {v.get('alertLevel','')}"
-                url = f"https://volcanoes.usgs.gov/volcanoes/{v.get('volcCode','')}"
+            for volcano in data:
+                name = volcano.get("volcanoName") or volcano.get("volcanoID") or "USGS Volcano"
+                code = volcano.get("volcanoID", "")
+                region = volcano.get("region", "")
+                alert = volcano.get("alertLevel", "")
+                color = volcano.get("currentColorCode", "")
+                desc = f"Region: {region} | Alert: {alert} | Color: {color}"
+                volcano_url = f"https://volcanoes.usgs.gov/volcanoes/{code}" if code else "https://volcanoes.usgs.gov/"
                 result.append({
                     "name": name,
-                    "type": "USGS Elevated Volcano",
-                    "endpoint": url,
+                    "type": "USGS Volcano",
+                    "endpoint": volcano_url,
                     "formats": "JSON",
-                    "properties": v,
+                    "properties": volcano,
                     "description": desc,
-                    "url": url,
-                    "series": "Elevated Volcanoes",
+                    "url": volcano_url,
+                    "series": "US Volcanoes",
                     "source": "USGS"
                 })
         except Exception as e:
-            errors.append(("elevated_volcanoes", str(e)))
-            print(f"Error fetching USGS elevated volcanoes: {e}")
-        return result
-
-    def fetch_cap_alerts():
-        result = []
-        try:
-            resp = requests.get(f"{USGS_HANS_BASE}/volcano/getCAPElevated", headers=HIFLD_HEADERS, timeout=15)
-            resp.raise_for_status()
-            data = resp.json()
-            for v in data:
-                name = v.get("volcanoName") or v.get("volcCode") or "USGS CAP Alert"
-                desc = v.get("headline") or v.get("description") or ""
-                url = v.get("capUrl") or ""
-                result.append({
-                    "name": name,
-                    "type": "USGS CAP Alert",
-                    "endpoint": url,
-                    "formats": "JSON",
-                    "properties": v,
-                    "description": desc,
-                    "url": url,
-                    "series": "CAP Alerts",
-                    "source": "USGS"
-                })
-        except Exception as e:
-            errors.append(("cap_alerts", str(e)))
-            print(f"Error fetching USGS CAP alerts: {e}")
+            errors.append(("us_volcanoes", str(e)))
+            print(f"Error fetching USGS US volcanoes: {e}")
         return result
 
     def fetch_monitored_volcanoes():
         result = []
         try:
-            resp = requests.get(f"{USGS_HANS_BASE}/volcano/getMonitoredVolcanoes", headers=HIFLD_HEADERS, timeout=15)
+            url = f"{USGS_VOLCANOES_BASE}/getMonitoredVolcanoes"
+            resp = requests.get(url, timeout=15)
             resp.raise_for_status()
             data = resp.json()
-            for v in data:
-                name = v.get("volcanoName") or v.get("volcCode") or "USGS Monitored Volcano"
-                desc = v.get("region") or ""
-                url = f"https://volcanoes.usgs.gov/volcanoes/{v.get('volcCode','')}"
+            for volcano in data:
+                name = volcano.get("volcanoName") or volcano.get("volcanoID") or "USGS Monitored Volcano"
+                code = volcano.get("volcanoID", "")
+                region = volcano.get("region", "")
+                alert = volcano.get("alertLevel", "")
+                color = volcano.get("currentColorCode", "")
+                desc = f"Region: {region} | Alert: {alert} | Color: {color}"
+                volcano_url = f"https://volcanoes.usgs.gov/volcanoes/{code}" if code else "https://volcanoes.usgs.gov/"
                 result.append({
                     "name": name,
                     "type": "USGS Monitored Volcano",
-                    "endpoint": url,
+                    "endpoint": volcano_url,
                     "formats": "JSON",
-                    "properties": v,
+                    "properties": volcano,
                     "description": desc,
-                    "url": url,
+                    "url": volcano_url,
                     "series": "Monitored Volcanoes",
                     "source": "USGS"
                 })
@@ -180,41 +144,75 @@ def fetch_usgs_layers(progress_cb=None):
             print(f"Error fetching USGS monitored volcanoes: {e}")
         return result
 
-    def fetch_geojson_volcanoes():
+    def fetch_elevated_volcanoes():
         result = []
         try:
-            geojson_url = "https://volcanoes.usgs.gov/feeds/vhp_volcano_info.geojson"
-            resp = requests.get(geojson_url, timeout=15)
+            url = f"{USGS_VOLCANOES_BASE}/getElevatedVolcanoes"
+            resp = requests.get(url, timeout=15)
             resp.raise_for_status()
             data = resp.json()
-            for feat in data.get("features", []):
-                props = feat.get("properties", {})
-                name = props.get("volcanoName") or props.get("volcCode") or props.get("id") or "USGS GeoJSON Volcano"
-                desc = f"Alert: {props.get('currentColorCode','')}, {props.get('alertLevel','')}"
-                url = f"https://volcanoes.usgs.gov/volcanoes/{props.get('volcCode','') or props.get('id','')}"
+            for volcano in data:
+                name = volcano.get("volcanoName") or volcano.get("volcanoID") or "USGS Elevated Volcano"
+                code = volcano.get("volcanoID", "")
+                region = volcano.get("region", "")
+                alert = volcano.get("alertLevel", "")
+                color = volcano.get("currentColorCode", "")
+                desc = f"Region: {region} | Alert: {alert} | Color: {color}"
+                volcano_url = f"https://volcanoes.usgs.gov/volcanoes/{code}" if code else "https://volcanoes.usgs.gov/"
                 result.append({
                     "name": name,
-                    "type": "USGS GeoJSON Volcano",
-                    "endpoint": url,
-                    "formats": "GeoJSON",
-                    "properties": props,
+                    "type": "USGS Elevated Volcano",
+                    "endpoint": volcano_url,
+                    "formats": "JSON",
+                    "properties": volcano,
                     "description": desc,
-                    "url": url,
-                    "series": "GeoJSON Volcanoes",
+                    "url": volcano_url,
+                    "series": "Elevated Volcanoes",
                     "source": "USGS"
                 })
         except Exception as e:
-            errors.append(("geojson_volcanoes", str(e)))
-            print(f"Error fetching USGS GeoJSON volcanoes: {e}")
+            errors.append(("elevated_volcanoes", str(e)))
+            print(f"Error fetching USGS elevated volcanoes: {e}")
+        return result
+
+    def fetch_cap_elevated_volcanoes():
+        result = []
+        try:
+            url = f"{USGS_VOLCANOES_BASE}/getCapElevated"
+            resp = requests.get(url, timeout=15)
+            resp.raise_for_status()
+            data = resp.json()
+            for volcano in data:
+                name = volcano.get("volcanoName") or volcano.get("volcanoID") or "USGS CAP-Elevated Volcano"
+                code = volcano.get("volcanoID", "")
+                region = volcano.get("region", "")
+                alert = volcano.get("alertLevel", "")
+                color = volcano.get("currentColorCode", "")
+                desc = f"Region: {region} | Alert: {alert} | Color: {color}"
+                volcano_url = f"https://volcanoes.usgs.gov/volcanoes/{code}" if code else "https://volcanoes.usgs.gov/"
+                result.append({
+                    "name": name,
+                    "type": "USGS CAP-Elevated Volcano",
+                    "endpoint": volcano_url,
+                    "formats": "JSON",
+                    "properties": volcano,
+                    "description": desc,
+                    "url": volcano_url,
+                    "series": "CAP-Elevated Volcanoes",
+                    "source": "USGS"
+                })
+        except Exception as e:
+            errors.append(("cap_elevated_volcanoes", str(e)))
+            print(f"Error fetching USGS CAP-elevated volcanoes: {e}")
         return result
 
     fetch_funcs = {
         "earthquakes": fetch_earthquakes,
         "water": fetch_water,
-        "elevated_volcanoes": fetch_elevated_volcanoes,
-        "cap_alerts": fetch_cap_alerts,
+        "us_volcanoes": fetch_us_volcanoes,
         "monitored_volcanoes": fetch_monitored_volcanoes,
-        "geojson_volcanoes": fetch_geojson_volcanoes
+        "elevated_volcanoes": fetch_elevated_volcanoes,
+        "cap_elevated_volcanoes": fetch_cap_elevated_volcanoes,
     }
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
