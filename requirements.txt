@@ -1,7 +1,6 @@
-requests
-pandas
-openpyxl
-python-docx
-reportlab
-urllib3
-markdown
+requests==2.31.0
+pandas==2.2.0
+openpyxl==3.1.2
+python-docx==0.8.11
+reportlab==4.0.4
+urllib3==2.0.7
